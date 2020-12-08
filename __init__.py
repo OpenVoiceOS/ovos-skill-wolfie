@@ -129,10 +129,14 @@ class WolframAlphaSkill(CommonQuerySkill):
         else:
             return None
 
+        if not response:
+            return None
+
         bad_answers = ["No spoken result available",
                        "Wolfram Alpha did not understand your input"]
         if response in bad_answers:
             return None
+
         return self.translate(response)
 
     def get_selene_response(self, query):
