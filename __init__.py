@@ -128,16 +128,24 @@ class WolframAlphaSkill(CommonQuerySkill):
             response = self.get_wolfram_response(utt)
         else:
             return None
-        if response:
-            return self.translate(response)
+
+        bad_answers = ["No spoken result available",
+                       "Wolfram Alpha did not understand your input"]
+        if response in bad_answers:
+            return None
+        return self.translate(response)
 
     def get_selene_response(self, query):
-        response = self.selene_api.spoken(
-            query=query,
-            lat_lon=(self.location['coordinate']['latitude'],
-                     self.location['coordinate']['longitude']),
-            units=self.config_core['system_unit'])
-        return response
+        if query in self.answer_cache:
+            answer = self.answer_cache[query]
+        else:
+            answer = self.selene_api.spoken(
+                query=query,
+                lat_lon=(self.location['coordinate']['latitude'],
+                         self.location['coordinate']['longitude']),
+                units=self.config_core['system_unit'])
+            self.answer_cache[query] = answer
+        return answer
 
     def get_wolfram_response(self, query):
         url = 'http://api.wolframalpha.com/v1/spoken'
@@ -148,11 +156,7 @@ class WolframAlphaSkill(CommonQuerySkill):
                       "i": query,
                       "units": self.config_core['system_unit']}
             answer = requests.get(url, params=params).text
-            bad_answers = ["No spoken result available",
-                           "Wolfram Alpha did not understand your input"]
-            if answer in bad_answers:
-                return None
-        self.answer_cache[query] = answer
+            self.answer_cache[query] = answer
         return answer
 
 
