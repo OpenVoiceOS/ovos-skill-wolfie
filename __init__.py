@@ -114,8 +114,9 @@ class WolframAlphaSkill(CommonQuerySkill):
     def CQS_match_query_phrase(self, utt):
         self.log.debug("WolframAlpha query: " + utt)
         response = self.ask_the_wolf(utt)
-        return (utt, CQSMatchLevel.GENERAL, response,
-                {'query': utt, 'answer': response})
+        if response:
+            return (utt, CQSMatchLevel.GENERAL, response,
+                    {'query': utt, 'answer': response})
 
     def ask_the_wolf(self, query):
         # Automatic translation to English
