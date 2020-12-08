@@ -2,8 +2,9 @@
 Use Wolfram Alpha for general knowledge questions
 
 ## About
-Ask general-knowledge queries of your Mycroft device.  If no other Skills can handle the _Intent_, [Wolfram Alpha](https://wolframalpha.com) will be queried
-to see if it can find an answer.  You'll be surprised by how much it knows!
+Ask general-knowledge queries of your Mycroft device. 
+CommonQuery skill for [Wolfram Alpha](https://wolframalpha.com). 
+You'll be surprised by how much it knows!
 
 You can also explicitly request to "ask the wolf"
 
@@ -23,7 +24,6 @@ NOTE: this is meant to be a better alternative to the official mycroft skill, it
 
 ## Tags
 #wolfram-alpha
-#fallback
 #query
 #general-knowledge
 #information
