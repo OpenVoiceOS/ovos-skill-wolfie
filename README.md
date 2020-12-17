@@ -1,5 +1,8 @@
-# <img src='./wolfie.png' card_color='#22a7f0' width='50' height='50' style='vertical-align:bottom'/> Wolfram Alpha
+# <img src='./res/icon/wolfie.png' card_color='#22a7f0' width='50' height='50' style='vertical-align:bottom'/> Wolfram Alpha
 Use Wolfram Alpha for general knowledge questions
+
+![](./ui/logo.png)
+
 
 ## About
 Ask general-knowledge queries of your Mycroft device. 
