@@ -1,2 +1,1 @@
-requests>=2.13.0
-google_trans_new
+git+https://github.com/NeonGeckoCom/neon_solver_wolfram_alpha_plugin
