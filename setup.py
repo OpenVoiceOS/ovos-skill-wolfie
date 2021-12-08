@@ -19,7 +19,9 @@ setup(
     package_data={'skill_wolfie': ['locale/*', 'vocab/*', "dialog/*"]},
     packages=['skill_wolfie'],
     include_package_data=True,
-    install_requires=["ovos-plugin-manager>=0.0.1a3"],
+    install_requires=["ovos-plugin-manager>=0.0.1a3",
+                      "neon-lang-plugin-libretranslate",
+                      "quebra_frases"],
     keywords='ovos skill plugin',
     entry_points={'ovos.plugin.skill': PLUGIN_ENTRY_POINT}
 )
