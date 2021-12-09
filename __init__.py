@@ -10,30 +10,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from mycroft.api import Api
 from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 from mycroft.skills.core import intent_handler
 from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
 
 
-class WAApi(Api):
-    """ Wrapper for wolfram alpha calls through Mycroft Home API. """
-
-    def __init__(self):
-        super(WAApi, self).__init__("wolframAlphaSpoken")
-
-    def spoken(self, query, lat_lon, units='metric'):
-        try:
-            return self.request(
-                {'query': {'i': query,
-                           'geolocation': '{},{}'.format(*lat_lon),
-                           'units': units}})
-        except Exception as e:
-            # don't care what the cause was
-            return None
-
-
 class WolframAlphaSkill(CommonQuerySkill):
+
+    @property
+    def wolfie(self):
+        return WolframAlphaSolver({
+            "units": self.config_core['system_unit'],
+            "appid": self.settings["api_key"]
+        })
 
     @intent_handler("search_wolfie.intent")
     def handle_search(self, message):
@@ -41,6 +30,8 @@ class WolframAlphaSkill(CommonQuerySkill):
         response = self.ask_the_wolf(query)
         if response:
             self.speak(response)
+            image = self.wolfie.get_image(query, {"lang": self.lang})
+            self.gui.show_image(image)
         else:
             self.speak_dialog("no_answer")
 
@@ -50,6 +41,11 @@ class WolframAlphaSkill(CommonQuerySkill):
         if response:
             return (utt, CQSMatchLevel.GENERAL, response,
                     {'query': utt, 'answer': response})
+
+    def CQS_action(self, phrase, data):
+        """ If selected show gui """
+        image = self.wolfie.get_image(phrase, {'lang': self.lang})
+        self.gui.show_image(image)
 
     def ask_the_wolf(self, query):
         wolfie = WolframAlphaSolver({
