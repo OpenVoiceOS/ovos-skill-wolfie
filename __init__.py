@@ -21,7 +21,7 @@ class WolframAlphaSkill(CommonQuerySkill):
     def wolfie(self):
         return WolframAlphaSolver({
             "units": self.config_core['system_unit'],
-            "appid": self.settings["api_key"]
+            "appid": self.settings.get("api_key")
         })
 
     @intent_handler("search_wolfie.intent")
@@ -48,11 +48,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         self.gui.show_image(image)
 
     def ask_the_wolf(self, query):
-        wolfie = WolframAlphaSolver({
-            "units": self.config_core['system_unit'],
-            "appid": self.settings["api_key"]
-        })
-        for sentence in wolfie.spoken_answers(query):
+        for sentence in self.wolfie.spoken_answers(query):
             return sentence
 
 
