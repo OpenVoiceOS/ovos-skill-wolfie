@@ -10,6 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+from os.path import join
 from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 from mycroft.skills.core import intent_handler
 from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
@@ -44,8 +45,8 @@ class WolframAlphaSkill(CommonQuerySkill):
 
     def CQS_action(self, phrase, data):
         """ If selected show gui """
-        image = self.wolfie.get_image(phrase, {'lang': self.lang})
-        self.gui.show_image(image)
+        self.gui["wolfram_image"] = self.wolfie.get_image(phrase, {'lang': self.lang})
+        self.gui.show_page(join(self.root_dir, "ui", "wolf.qml"), override_idle=45)
 
     def ask_the_wolf(self, query):
         for sentence in self.wolfie.spoken_answers(query):
