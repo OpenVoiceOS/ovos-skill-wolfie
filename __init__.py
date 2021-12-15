@@ -96,6 +96,8 @@ class WolframAlphaSkill(CommonQuerySkill):
             return self.results[0]["summary"]
 
     def display_wolfie(self):
+        if not can_use_gui(self.bus):
+            return
         image = None
         # issues can happen if skill reloads
         # eg. "tell me more" -> invalid self.idx
