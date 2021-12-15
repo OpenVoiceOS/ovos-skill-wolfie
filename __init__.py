@@ -12,43 +12,48 @@
 #
 import re
 from os.path import join
+
+from adapt.intent import IntentBuilder
 from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 from mycroft.skills.core import intent_handler
 from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
-from adapt.intent import IntentBuilder
 from ovos_utils.gui import can_use_gui
-
-
-# TODO move into ovos_utils for reusability
-def remove_parentheses(answer):
-    # remove [xx] (xx) {xx}
-    answer = re.sub(r'\[[^)]*\]', '', answer)
-    answer = re.sub(r'\([^)]*\)', '', answer)
-    answer = re.sub(r'\{[^)]*\}', '', answer)
-    answer = answer.replace("(", "").replace(")", "") \
-        .replace("[", "").replace("]", "").replace("{", "") \
-        .replace("}", "").strip()
-    # remove extra spaces
-    words = [w for w in answer.split(" ") if w.strip()]
-    answer = " ".join(words)
-    if not answer:
-        return None
-    return answer
 
 
 class WolframAlphaSkill(CommonQuerySkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.idx = 0
-        self.last_query = None
-        self.results = []
         self.wolfie = WolframAlphaSolver({
             "units": self.config_core['system_unit'],
             "appid": self.settings.get("api_key")
         })
-        self.image = None
+        # continuous dialog, "tell me more"
+        self.idx = 0
+        self.last_query = None
+        self.results = []
+
+        # answer processing options
         self.skip_images = True  # some wolfram results are pictures with no speech
-                                 # if a gui is available the title is read and image displayed
+        # if a gui is available the title is read and image displayed
+
+        # These results are usually not unwanted as spoken responses
+        # they are either spammy or cant be handled by TTS properly
+        self.skips = [
+            # quantities, eg speed of light
+            'Comparison', # spammy
+            'Corresponding quantities', # spammy
+            'Basic unit dimensions', # TTS will fail hard 99% of time
+            # when asking about word definitions
+            'American pronunciation',  # can not pronounce IPA phonemes
+            'Translations',  # TTS wont handle othe langs or charsets
+            'Hyphenation',  # spammy
+            'Anagrams',  # spammy
+            'Lexically close words',  # spammy
+            'Overall typical frequency',  # spammy
+            'Crossword puzzle clues',  # spammy
+            'Scrabble score',  # spammy
+            'Other notable uses'  # spammy
+        ]
 
     # explicit intents
     @intent_handler("search_wolfie.intent")
@@ -83,19 +88,25 @@ class WolframAlphaSkill(CommonQuerySkill):
     def ask_the_wolf(self, query):
         # context for follow up questions
         self.set_context("WolfieKnows", query)
-        self.results = self.wolfie.long_answer(query)
+        results = self.wolfie.long_answer(query)
         self.idx = 0
-        self.image = None
+        self.last_query = query
+        self.results = [s for s in results if s.get("title") not in self.skips]
         if len(self.results):
-            self.image = self.wolfie.visual_answer(query)
             return self.results[0]["summary"]
 
     def display_wolfie(self):
-        image = self.results[self.idx].get("img") or\
-                self.wolfie.visual_answer(self.last_query)
-        # scrollable full result page
-        self.gui["wolfram_image"] = image
-        self.gui.show_page(join(self.root_dir, "ui", "wolf.qml"), override_idle=45)
+        image = None
+        # issues can happen if skill reloads
+        # eg. "tell me more" -> invalid self.idx
+        if self.idx < len(self.results):
+            image = self.results[self.idx].get("img")
+        if self.last_query:
+            image = image or self.wolfie.visual_answer(self.last_query)
+        if image:
+            self.gui["wolfram_image"] = image
+            # scrollable full result page
+            self.gui.show_page(join(self.root_dir, "ui", "wolf.qml"), override_idle=45)
 
     def speak_result(self):
         if self.idx + 1 > len(self.results):
@@ -116,8 +127,7 @@ class WolframAlphaSkill(CommonQuerySkill):
                 self.display_wolfie()
                 # make it more speech friendly
                 ans = self.results[self.idx]["summary"]
-                ans = ans.replace(" | ", "; ").replace("\n", ".\n")
-                ans = remove_parentheses(ans)
+                ans = ans.replace(" | ", "; ")
                 self.speak(ans)
             self.idx += 1
 
