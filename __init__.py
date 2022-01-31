@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import re
 from os.path import join
 
 from adapt.intent import IntentBuilder
@@ -40,12 +39,12 @@ class WolframAlphaSkill(CommonQuerySkill):
         # they are either spammy or cant be handled by TTS properly
         self.skips = [
             # quantities, eg speed of light
-            'Comparison', # spammy
-            'Corresponding quantities', # spammy
-            'Basic unit dimensions', # TTS will fail hard 99% of time
+            'Comparison',  # spammy
+            'Corresponding quantities',  # spammy
+            'Basic unit dimensions',  # TTS will fail hard 99% of time
             # when asking about word definitions
             'American pronunciation',  # can not pronounce IPA phonemes
-            'Translations',  # TTS wont handle othe langs or charsets
+            'Translations',  # TTS wont handle other langs or charsets
             'Hyphenation',  # spammy
             'Anagrams',  # spammy
             'Lexically close words',  # spammy
