@@ -22,10 +22,7 @@ from ovos_utils.gui import can_use_gui
 class WolframAlphaSkill(CommonQuerySkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.wolfie = WolframAlphaSolver({
-            "units": self.config_core['system_unit'],
-            "appid": self.settings.get("api_key")
-        })
+        self.wolfie = None
         # continuous dialog, "tell me more"
         self.idx = 0
         self.last_query = None
@@ -53,6 +50,12 @@ class WolframAlphaSkill(CommonQuerySkill):
             'Scrabble score',  # spammy
             'Other notable uses'  # spammy
         ]
+
+    def initialize(self):
+        self.wolfie = WolframAlphaSolver({
+            "units": self.config_core['system_unit'],
+            "appid": self.settings.get("api_key")
+        })
 
     # explicit intents
     @intent_handler("search_wolfie.intent")
