@@ -32,7 +32,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         self.skip_images = True  # some wolfram results are pictures with no speech
         # if a gui is available the title is read and image displayed
 
-        # These results are usually not unwanted as spoken responses
+        # These results are usually unwanted as spoken responses
         # they are either spammy or cant be handled by TTS properly
         self.skips = [
             # quantities, eg speed of light
