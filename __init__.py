@@ -10,158 +10,130 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import requests
-from mycroft.api import Api
-from mycroft.messagebus.message import Message
-from mycroft.skills.core import intent_handler
-from mycroft.configuration import LocalConf, USER_CONFIG
+from os.path import join
+
+from adapt.intent import IntentBuilder
 from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
-from google_trans_new import google_translator
-
-
-class WAApi(Api):
-    """ Wrapper for wolfram alpha calls through Mycroft Home API. """
-
-    def __init__(self):
-        super(WAApi, self).__init__("wolframAlphaSpoken")
-
-    def spoken(self, query, lat_lon, units='metric'):
-        try:
-            return self.request(
-                {'query': {'i': query,
-                           'geolocation': '{},{}'.format(*lat_lon),
-                           'units': units}})
-        except Exception as e:
-            # don't care what the cause was
-            return None
+from mycroft.skills.core import intent_handler
+from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
+from ovos_utils.gui import can_use_gui
 
 
 class WolframAlphaSkill(CommonQuerySkill):
-    def __init__(self):
-        super().__init__()
-        if "use_selene" not in self.settings:
-            self.settings["use_selene"] = True
-        if "api_key" not in self.settings:
-            self.settings["api_key"] = "Y7R353-9HQAAL8KKA"
-        self.translator = google_translator()
-        self.tx_cache = {}  # avoid translating twice
-        self.answer_cache = {}  # avoid hitting wolfram twice for same question
-        self.selene_api = WAApi()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.wolfie = None
+        # continuous dialog, "tell me more"
+        self.idx = 0
+        self.last_query = None
+        self.results = []
+
+        # answer processing options
+        self.skip_images = True  # some wolfram results are pictures with no speech
+        # if a gui is available the title is read and image displayed
+
+        # These results are usually unwanted as spoken responses
+        # they are either spammy or cant be handled by TTS properly
+        self.skips = [
+            # quantities, eg speed of light
+            'Comparison',  # spammy
+            'Corresponding quantities',  # spammy
+            'Basic unit dimensions',  # TTS will fail hard 99% of time
+            # when asking about word definitions
+            'American pronunciation',  # can not pronounce IPA phonemes
+            'Translations',  # TTS wont handle other langs or charsets
+            'Hyphenation',  # spammy
+            'Anagrams',  # spammy
+            'Lexically close words',  # spammy
+            'Overall typical frequency',  # spammy
+            'Crossword puzzle clues',  # spammy
+            'Scrabble score',  # spammy
+            'Other notable uses'  # spammy
+        ]
 
     def initialize(self):
-        self.blacklist_default_skill()
+        self.wolfie = WolframAlphaSolver({
+            "units": self.config_core['system_unit'],
+            "appid": self.settings.get("api_key")
+        })
 
-    def blacklist_default_skill(self):
-        # load the current list of already blacklisted skills
-        blacklist = self.config_core["skills"]["blacklisted_skills"]
-
-        # check the folder name (skill_id) of the skill you want to replace
-        skill_id = "fallback-wolfram-alpha.mycroftai"
-
-        # add the skill to the blacklist
-        if skill_id not in blacklist:
-            self.log.debug("Blacklisting official mycroft skill")
-            blacklist.append(skill_id)
-
-            # load the user config file (~/.mycroft/mycroft.conf)
-            conf = LocalConf(USER_CONFIG)
-            if "skills" not in conf:
-                conf["skills"] = {}
-
-            # update the blacklist field
-            conf["skills"]["blacklisted_skills"] = blacklist
-
-            # save the user config file
-            conf.store()
-
-        # tell the intent service to unload the skill in case it was loaded already
-        # this should avoid the need to restart
-        self.bus.emit(Message("detach_skill", {"skill_id": skill_id}))
-
-    def translate(self, utterance, lang_tgt=None, lang_src="en"):
-        lang_tgt = lang_tgt or self.lang
-
-        # if langs are the same do nothing
-        if not lang_tgt.startswith(lang_src):
-            if lang_tgt not in self.tx_cache:
-                self.tx_cache[lang_tgt] = {}
-            # if translated before, dont translate again
-            if utterance in self.tx_cache[lang_tgt]:
-                # get previous translated value
-                translated_utt = self.tx_cache[lang_tgt][utterance]
-            else:
-                # translate this utterance
-                translated_utt = self.translator.translate(utterance,
-                                                           lang_tgt=lang_tgt,
-                                                           lang_src=lang_src).strip()
-                # save the translation if we need it again
-                self.tx_cache[lang_tgt][utterance] = translated_utt
-            self.log.debug("translated {src} -- {tgt}".format(src=utterance,
-                                                              tgt=translated_utt))
-        else:
-            translated_utt = utterance.strip()
-        return translated_utt
-
+    # explicit intents
     @intent_handler("search_wolfie.intent")
     def handle_search(self, message):
         query = message.data["query"]
         response = self.ask_the_wolf(query)
         if response:
-            self.speak(response)
+            self.speak_result()
         else:
             self.speak_dialog("no_answer")
 
+    @intent_handler(IntentBuilder("WolfieMore").require("More").
+                    require("WolfieKnows"))
+    def handle_tell_more(self, message):
+        """ Follow up query handler, "tell me more"."""
+        self.speak_result()
+
+    # common query integration
     def CQS_match_query_phrase(self, utt):
         self.log.debug("WolframAlpha query: " + utt)
         response = self.ask_the_wolf(utt)
         if response:
+            self.idx += 1  # spoken by common query framework
             return (utt, CQSMatchLevel.GENERAL, response,
                     {'query': utt, 'answer': response})
 
+    def CQS_action(self, phrase, data):
+        """ If selected show gui """
+        self.display_wolfie()
+
+    # wolfram integration
     def ask_the_wolf(self, query):
-        # Automatic translation to English
-        utt = self.translate(query, "en", self.lang)
+        # context for follow up questions
+        self.set_context("WolfieKnows", query)
+        results = self.wolfie.long_answer(query)
+        self.idx = 0
+        self.last_query = query
+        self.results = [s for s in results if s.get("title") not in self.skips]
+        if len(self.results):
+            return self.results[0]["summary"]
 
-        if self.settings["use_selene"]:
-            response = self.get_selene_response(utt)
-        elif self.settings.get("api_key"):
-            response = self.get_wolfram_response(utt)
+    def display_wolfie(self):
+        if not can_use_gui(self.bus):
+            return
+        image = None
+        # issues can happen if skill reloads
+        # eg. "tell me more" -> invalid self.idx
+        if self.idx < len(self.results):
+            image = self.results[self.idx].get("img")
+        if self.last_query:
+            image = image or self.wolfie.visual_answer(self.last_query)
+        if image:
+            self.gui["wolfram_image"] = image
+            # scrollable full result page
+            self.gui.show_page(join(self.root_dir, "ui", "wolf.qml"), override_idle=45)
+
+    def speak_result(self):
+        if self.idx + 1 > len(self.results):
+            self.speak_dialog("thats all")
+            self.remove_context("WolfieKnows")
+            self.idx = 0
         else:
-            return None
-
-        if not response:
-            return None
-
-        bad_answers = ["No spoken result available",
-                       "Wolfram Alpha did not understand your input"]
-        if response in bad_answers:
-            return None
-
-        return self.translate(response)
-
-    def get_selene_response(self, query):
-        if query in self.answer_cache:
-            answer = self.answer_cache[query]
-        else:
-            answer = self.selene_api.spoken(
-                query=query,
-                lat_lon=(self.location['coordinate']['latitude'],
-                         self.location['coordinate']['longitude']),
-                units=self.config_core['system_unit'])
-            self.answer_cache[query] = answer
-        return answer
-
-    def get_wolfram_response(self, query):
-        url = 'http://api.wolframalpha.com/v1/spoken'
-        if query in self.answer_cache:
-            answer = self.answer_cache[query]
-        else:
-            params = {"appid": self.settings["api_key"],
-                      "i": query,
-                      "units": self.config_core['system_unit']}
-            answer = requests.get(url, params=params).text
-            self.answer_cache[query] = answer
-        return answer
+            if not self.results[self.idx].get("summary"):
+                if not self.skip_images and can_use_gui(self.bus):
+                    self.speak(self.results[self.idx]["title"])
+                    self.display_wolfie()
+                else:
+                    # skip image only result
+                    self.idx += 1
+                    self.speak_result()
+                    return
+            else:
+                self.display_wolfie()
+                # make it more speech friendly
+                ans = self.results[self.idx]["summary"]
+                ans = ans.replace(" | ", "; ")
+                self.speak(ans)
+            self.idx += 1
 
 
 def create_skill():
