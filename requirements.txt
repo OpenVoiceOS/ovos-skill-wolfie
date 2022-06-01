@@ -1,3 +1,2 @@
-git+https://github.com/NeonGeckoCom/neon_solver_wolfram_alpha_plugin
-quebra_frases
-neon-lang-plugin-libretranslate
+neon-solver-wolfram-alpha-plugin
+neon-solvers

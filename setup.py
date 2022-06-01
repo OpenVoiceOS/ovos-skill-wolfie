@@ -2,9 +2,7 @@
 from setuptools import setup
 
 # skill_id=package_name:SkillClass
-PLUGIN_ENTRY_POINT = 'fallback-wolfram-alpha.mycroftai=skill_wolfie:WolframAlphaSkill'
-# in this case the skill_id is defined to purposefully replace the mycroft version of the skill,
-# or rather to be replaced by it in case it is present. all skill directories take precedence over plugin skills
+PLUGIN_ENTRY_POINT = 'skill-wolfie.jarbasai=skill_wolfie:WolframAlphaSkill'
 
 setup(
     # this is the package name that goes on pip
@@ -20,8 +18,8 @@ setup(
     packages=['skill_wolfie'],
     include_package_data=True,
     install_requires=["ovos-plugin-manager>=0.0.1a3",
-                      "neon-lang-plugin-libretranslate",
-                      "quebra_frases"],
+                      "neon-solver-wolfram-alpha-plugin",
+                      "neon-solvers"],
     keywords='ovos skill plugin',
     entry_points={'ovos.plugin.skill': PLUGIN_ENTRY_POINT}
 )
