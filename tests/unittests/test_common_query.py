@@ -1,6 +1,7 @@
 import json
 import unittest
 from unittest.mock import Mock
+
 from mycroft.skills import FallbackSkill
 from ovos_skill_common_query import QuestionsAnswersSkill
 from ovos_utils.messagebus import FakeBus, Message
@@ -74,9 +75,7 @@ class TestCommonQuery(unittest.TestCase):
     def test_common_query_events(self):
         self.bus.emitted_msgs = []
         self.cc.handle_question(Message("fallback_cycle_test",
-                                        {"utterance": "what is the speed of light"},
-                                        {"source": "unittests",
-                                         "destination": "common_query"}))
+                                        {"utterance": "what is the speed of light"}))
 
         query_messages = [
             # thinking animation
@@ -87,18 +86,14 @@ class TestCommonQuery(unittest.TestCase):
             # send query
             {'type': 'question:query',
              'data': {'phrase': 'what is the speed of light'},
-             'context': {'destination': 'unittests',
-                         'skill_id': 'common_query.test',
-                         'source': 'common_query'}},
+             'context': {'skill_id': 'common_query.test'}},
 
             # skill announces its searching
             {'type': 'question:query.response',
              'data': {'phrase': 'what is the speed of light',
                       'skill_id': 'wolfie.test',
                       'searching': True},
-             'context': {'skill_id': 'wolfie.test',
-                         'destination': 'unittests',
-                         'source': 'common_query'}},
+             'context': {'skill_id': 'wolfie.test'}},
         ]
 
         answer_messages = [
@@ -107,9 +102,7 @@ class TestCommonQuery(unittest.TestCase):
              'data': {'context': 'wolfie_testWolfieKnows',
                       'word': 'what is the speed of light',
                       'origin': ''},
-             'context': {'destination': 'unittests',
-                         'skill_id': 'common_query.test',
-                         'source': 'common_query'}},
+             'context': {'skill_id': 'common_query.test'}},
             # final wolfram response
             {'type': 'question:query.response',
              'data': {'phrase': 'what is the speed of light',
@@ -118,9 +111,7 @@ class TestCommonQuery(unittest.TestCase):
                       'callback_data': {'query': 'what is the speed of light',
                                         'answer': "the answer is always 42"},
                       'conf': 0.0},
-             'context': {'destination': 'unittests',
-                         'skill_id': 'common_query.test',
-                         'source': 'common_query'}},
+             'context': {'skill_id': 'common_query.test'}},
 
         ]
         timeout_extensions = ['mycroft.scheduler.schedule_event',
@@ -138,3 +129,27 @@ class TestCommonQuery(unittest.TestCase):
                 msg["data"]["conf"] = 0.0
             self.assertEqual(msg, msgs[ctr])
             ctr += 1
+
+    def test_common_query_events_routing(self):
+        # common query message life cycle
+        self.bus.emitted_msgs = []
+        self.cc.handle_question(Message("fallback_cycle_test",
+                                        {"utterance": "what is the speed of light"},
+                                        {"source": "unittests",
+                                         "destination": "common_query"}))
+
+        # "source" should receive these
+        unittest_msgs = set([m["type"] for m in self.bus.emitted_msgs
+                             if m["context"].get("destination", "") == "unittests"])
+        self.assertEqual(unittest_msgs, {'question:query',
+                                         'question:query.response',
+                                         'mycroft.scheduler.schedule_event',
+                                         'add_context'})
+
+        # internal to mycroft, "source" should NOT receive these
+        cc_msgs = set([m["type"] for m in self.bus.emitted_msgs
+                       if m["context"].get("destination", "") != "unittests"])
+
+        self.assertEqual(cc_msgs, {'enclosure.mouth.think',  # enclosure animation
+                                   'mycroft.scheduler.remove_event',  # internal timeouts to stop searching
+                                   'mycroft.scheduler.schedule_event'})
