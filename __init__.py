@@ -15,8 +15,9 @@ from os.path import join
 from adapt.intent import IntentBuilder
 from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 from mycroft.skills.core import intent_handler
-from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
 from ovos_utils.gui import can_use_gui
+
+from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
 
 
 class WolframAlphaSkill(CommonQuerySkill):
@@ -90,7 +91,8 @@ class WolframAlphaSkill(CommonQuerySkill):
     def ask_the_wolf(self, query):
         # context for follow up questions
         self.set_context("WolfieKnows", query)
-        results = self.wolfie.long_answer(query)
+        results = self.wolfie.long_answer(query,
+                                          context={"lang": self.lang})
         self.idx = 0
         self.last_query = query
         self.results = [s for s in results if s.get("title") not in self.skips]
@@ -106,7 +108,8 @@ class WolframAlphaSkill(CommonQuerySkill):
         if self.idx < len(self.results):
             image = self.results[self.idx].get("img")
         if self.last_query:
-            image = image or self.wolfie.visual_answer(self.last_query)
+            image = image or self.wolfie.visual_answer(self.last_query,
+                                                       context={"lang": self.lang})
         if image:
             self.gui["wolfram_image"] = image
             # scrollable full result page
