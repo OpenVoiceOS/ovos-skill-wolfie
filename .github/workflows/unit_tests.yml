@@ -23,6 +23,7 @@ jobs:
           python -m pip install build wheel
       - name: Install ovos components
         run: |
+          pip install git+https://github.com/MycroftAI/mycroft-messagebus-client
           pip install ovos-core[skills]
           pip install git+https://github.com/NeonGeckoCom/neon-solver-plugin-wolfram_alpha
           pip install git+https://github.com/OpenVoiceOS/skill-ovos-common-query

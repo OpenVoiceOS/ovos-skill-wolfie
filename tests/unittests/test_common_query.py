@@ -15,14 +15,15 @@ class TestCommonQuery(unittest.TestCase):
         def get_msg(msg):
             self.bus.emitted_msgs.append(json.loads(msg))
 
+        self.bus.on("message", get_msg)
+
         self.skill = WolframAlphaSkill()
         self.skill._startup(self.bus, "wolfie.test")
         self.skill.wolfie.long_answer = Mock()
         self.skill.wolfie.long_answer.return_value = [
-            {"title": "wolfie skill", "summary": "the answer is always 42"}]
-
-        # after wolfram to only get common_query messages
-        self.bus.on("message", get_msg)
+            {"title": "wolfie skill", "summary": "the answer is always 42"}
+        ]
+        self.bus.emitted_msgs = []
 
         self.cc = QuestionsAnswersSkill()
         self.cc._startup(self.bus, "common_query.test")
