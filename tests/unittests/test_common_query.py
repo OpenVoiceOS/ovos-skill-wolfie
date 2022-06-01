@@ -1,7 +1,7 @@
 import json
 import unittest
 from unittest.mock import Mock
-
+from time import sleep
 from mycroft.skills import FallbackSkill
 from ovos_skill_common_query import QuestionsAnswersSkill
 from ovos_utils.messagebus import FakeBus, Message
@@ -76,6 +76,7 @@ class TestCommonQuery(unittest.TestCase):
         self.bus.emitted_msgs = []
         self.cc.handle_question(Message("fallback_cycle_test",
                                         {"utterance": "what is the speed of light"}))
+        sleep(0.5)
 
         query_messages = [
             # thinking animation
@@ -137,7 +138,7 @@ class TestCommonQuery(unittest.TestCase):
                                         {"utterance": "what is the speed of light"},
                                         {"source": "unittests",
                                          "destination": "common_query"}))
-
+        sleep(0.5)
         # "source" should receive these
         unittest_msgs = set([m["type"] for m in self.bus.emitted_msgs
                              if m["context"].get("destination", "") == "unittests"])

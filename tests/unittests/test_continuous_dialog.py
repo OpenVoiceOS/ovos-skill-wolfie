@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 from ovos_utils.messagebus import FakeBus, Message
 from skill_wolfie import WolframAlphaSkill
-
+from time import sleep
 
 class TestDialog(unittest.TestCase):
     def setUp(self):
@@ -41,7 +41,7 @@ class TestDialog(unittest.TestCase):
         self.assertFalse(self.skill.has_context)
         self.skill.handle_search(Message("search_wolfie.intent",
                                          {"query": "what is the speed of light"}))
-
+        sleep(0.5)
         self.assertEqual(self.bus.emitted_msgs[0],
                          {'context': {'skill_id': 'wolfie.test'},
                           'data': {'context': 'wolfie_testWolfieKnows',
@@ -59,6 +59,7 @@ class TestDialog(unittest.TestCase):
         # "tell me more"
         self.assertTrue(self.skill.has_context)
         self.skill.handle_tell_more(Message("WolfieMore"))
+        sleep(0.5)
         self.assertEqual(self.bus.emitted_msgs[-1],
                          {'context': {'skill_id': 'wolfie.test'},
                           'data': {'expect_response': False,
@@ -70,6 +71,7 @@ class TestDialog(unittest.TestCase):
 
         # "tell me more" - no more data dialog
         self.skill.handle_tell_more(Message("WolfieMore"))
+        sleep(0.5)
         self.assertEqual(self.bus.emitted_msgs[-2]["type"], "speak")
         self.assertEqual(self.bus.emitted_msgs[-2]["data"]["meta"],
                          {'data': {}, 'dialog': 'thats all', 'skill': 'wolfie.test'})
