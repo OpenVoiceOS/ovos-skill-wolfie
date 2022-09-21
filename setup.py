@@ -2,11 +2,11 @@
 from setuptools import setup
 
 # skill_id=package_name:SkillClass
-PLUGIN_ENTRY_POINT = 'skill-wolfie.jarbasai=skill_wolfie:WolframAlphaSkill'
+PLUGIN_ENTRY_POINT = 'skill-ovos-wolfie.opwnvoiceos=skill_wolfie:WolframAlphaSkill'
 
 setup(
     # this is the package name that goes on pip
-    name='skill-wolfie',
+    name='skill-ovos-wolfie',
     version='0.0.1',
     description='mycroft/ovos wolfram alpha skill plugin',
     url='https://github.com/JarbasSkills/skill-wolfie',
