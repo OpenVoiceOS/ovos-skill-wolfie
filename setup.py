@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from setuptools import setup
+from os import path, walk
 
 
 URL = "https://github.com/OpenVoiceOS/skill-ovos-wolfie"
