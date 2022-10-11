@@ -4,7 +4,7 @@ from time import sleep
 from unittest.mock import Mock
 
 from ovos_utils.messagebus import FakeBus, Message
-from skill_wolfie import WolframAlphaSkill
+from skill_ovos_wolfie import WolframAlphaSkill
 
 
 class TestTranslation(unittest.TestCase):

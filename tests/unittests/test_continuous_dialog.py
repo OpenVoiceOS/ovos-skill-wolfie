@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import Mock
 
 from ovos_utils.messagebus import FakeBus, Message
-from skill_wolfie import WolframAlphaSkill
+from skill_ovos_wolfie import WolframAlphaSkill
 from time import sleep
 
 class TestDialog(unittest.TestCase):
