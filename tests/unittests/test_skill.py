@@ -2,7 +2,7 @@ import json
 import unittest
 
 from ovos_utils.messagebus import FakeBus
-from skill_wolfie import WolframAlphaSkill
+from skill_ovos_wolfie import WolframAlphaSkill
 from mycroft.skills import CommonQuerySkill
 
 

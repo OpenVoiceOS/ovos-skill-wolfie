@@ -1,6 +1,6 @@
 import unittest
 from ovos_plugin_manager.skills import find_skill_plugins
-from skill_wolfie import WolframAlphaSkill
+from skill_ovos_wolfie import WolframAlphaSkill
 
 
 class TestPlugin(unittest.TestCase):

@@ -5,7 +5,7 @@ from time import sleep
 from mycroft.skills import FallbackSkill
 from ovos_skill_common_query import QuestionsAnswersSkill
 from ovos_utils.messagebus import FakeBus, Message
-from skill_wolfie import WolframAlphaSkill
+from skill_ovos_wolfie import WolframAlphaSkill
 
 
 class TestCommonQuery(unittest.TestCase):

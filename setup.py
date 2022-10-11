@@ -52,7 +52,6 @@ with open("./version.py", "r", encoding="utf-8") as v:
 
 
 setup(
-    # this is the package name that goes on pip
     name=PYPI_NAME,
     version=version,
     description='mycroft/ovos wolfram alpha skill plugin',
