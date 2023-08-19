@@ -53,7 +53,6 @@ class WolframAlphaSkill(CommonQuerySkill):
             'Scrabble score',  # spammy
             'Other notable uses'  # spammy
         ]
-        self.initialize()
 
     @classproperty
     def runtime_requirements(self):
@@ -160,7 +159,3 @@ class WolframAlphaSkill(CommonQuerySkill):
                 ans = ans.replace(" | ", "; ")
                 self.speak(ans)
             self.idx += 1
-
-
-def create_skill():
-    return WolframAlphaSkill()
