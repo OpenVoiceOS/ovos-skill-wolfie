@@ -80,9 +80,6 @@ class WolframAlphaSkill(CommonQuerySkill):
     @intent_handler("search_wolfie.intent")
     def handle_search(self, message: Message):
         query = message.data["query"]
-        if self.wolfie is not None:
-            # Give ourselves a little time to get a response in
-            self.bus.emit(message.reply(msg_type=message.msg_type, data={"searching": True}, context=message.context))
         response = self.ask_the_wolf(query)
         if response:
             self.speak_result()
@@ -96,16 +93,17 @@ class WolframAlphaSkill(CommonQuerySkill):
         self.speak_result()
 
     # common query integration
-    def CQS_match_query_phrase(self, utt):
-        self.log.debug("WolframAlpha query: " + utt)
+    def CQS_match_query_phrase(self, phrase):
+        self.log.debug("WolframAlpha query: " + phrase)
         if self.wolfie is None:
             self.log.error("WolframAlphaSkill not initialized, no response")
             return
-        response = self.ask_the_wolf(utt)
+        response = self.ask_the_wolf(phrase)
         if response:
             self.idx += 1  # spoken by common query framework
-            return (utt, CQSMatchLevel.GENERAL, response,
-                    {'query': utt, 'answer': response})
+            self.log.debug("WolframAlpha response: %s", response)
+            return (phrase, CQSMatchLevel.GENERAL, response,
+                    {'query': phrase, 'answer': response})
 
     def CQS_action(self, phrase, data):
         """ If selected show gui """
