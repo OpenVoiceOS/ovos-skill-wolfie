@@ -120,6 +120,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         self.results = [s for s in results if s.get("title") not in self.skips]
         if len(self.results):
             return self.results[0]["summary"]
+        self.log.debug("WolframAlpha had no answers for %s", query)
 
     def display_wolfie(self):
         if not can_use_gui(self.bus):
