@@ -2,7 +2,7 @@ import json
 import unittest
 from unittest.mock import Mock
 from time import sleep
-from mycroft.skills import FallbackSkill
+from ovos_workshop.skills.fallback import FallbackSkill
 from ovos_skill_common_query import QuestionsAnswersSkill
 from ovos_utils.messagebus import FakeBus, Message
 from skill_ovos_wolfie import WolframAlphaSkill
@@ -152,6 +152,8 @@ class TestCommonQuery(unittest.TestCase):
             m = self.bus.emitted_msgs[ctr]
             if m["data"].get("conf"):
                 m["data"]["conf"] = 0.0
+            print(msg)
+            print(m)
             self.assertEqual(msg, m)
 
     @unittest.skip("TODO debug and fix me")

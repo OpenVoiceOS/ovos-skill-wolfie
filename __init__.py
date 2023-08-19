@@ -12,13 +12,13 @@
 #
 from os.path import join
 
-from adapt.intent import IntentBuilder
-from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
-from mycroft.skills.core import intent_handler
-from ovos_utils.gui import can_use_gui
-from ovos_utils.process_utils import RuntimeRequirements
-from ovos_utils import classproperty
 from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
+from ovos_utils import classproperty
+from ovos_utils.gui import can_use_gui
+from ovos_utils.intents import IntentBuilder
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_workshop.decorators import intent_handler
+from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 
 
 class WolframAlphaSkill(CommonQuerySkill):
@@ -52,6 +52,7 @@ class WolframAlphaSkill(CommonQuerySkill):
             'Scrabble score',  # spammy
             'Other notable uses'  # spammy
         ]
+        self.initialize()
 
     @classproperty
     def runtime_requirements(self):
@@ -66,10 +67,13 @@ class WolframAlphaSkill(CommonQuerySkill):
                                    no_gui_fallback=True)
 
     def initialize(self):
-        self.wolfie = WolframAlphaSolver({
-            "units": self.config_core['system_unit'],
-            "appid": self.settings.get("api_key")
-        })
+        try:
+            self.wolfie = WolframAlphaSolver({
+                "units": self.config_core['system_unit'],
+                "appid": self.settings.get("api_key")
+            })
+        except Exception as err:
+            self.log.error("WolframAlphaSkill failed to initialize: %s", err)
 
     # explicit intents
     @intent_handler("search_wolfie.intent")
@@ -90,6 +94,9 @@ class WolframAlphaSkill(CommonQuerySkill):
     # common query integration
     def CQS_match_query_phrase(self, utt):
         self.log.debug("WolframAlpha query: " + utt)
+        if self.wolfie is None:
+            self.log.error("WolframAlphaSkill not initialized, no response")
+            return
         response = self.ask_the_wolf(utt)
         if response:
             self.idx += 1  # spoken by common query framework
