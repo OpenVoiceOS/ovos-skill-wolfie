@@ -13,6 +13,7 @@
 from os.path import join
 
 from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
+from ovos_bus_client import Message
 from ovos_utils import classproperty
 from ovos_utils.gui import can_use_gui
 from ovos_utils.intents import IntentBuilder
@@ -77,8 +78,11 @@ class WolframAlphaSkill(CommonQuerySkill):
 
     # explicit intents
     @intent_handler("search_wolfie.intent")
-    def handle_search(self, message):
+    def handle_search(self, message: Message):
         query = message.data["query"]
+        if self.wolfie is not None:
+            # Give ourselves a little time to get a response in
+            self.bus.emit(message.reply(msg_type=message.msg_type, data={"searching": True}, context=message.context))
         response = self.ask_the_wolf(query)
         if response:
             self.speak_result()
