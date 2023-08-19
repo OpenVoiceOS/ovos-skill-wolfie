@@ -53,13 +53,6 @@ class WolframAlphaSkill(CommonQuerySkill):
             'Scrabble score',  # spammy
             'Other notable uses'  # spammy
         ]
-        try:
-            self.wolfie = WolframAlphaSolver({
-                "units": self.config_core['system_unit'],
-                "appid": self.settings.get("api_key")
-            })
-        except Exception as err:
-            self.log.error("WolframAlphaSkill failed to initialize: %s", err)
 
     @classproperty
     def runtime_requirements(self):
@@ -72,6 +65,15 @@ class WolframAlphaSkill(CommonQuerySkill):
                                    no_internet_fallback=False,
                                    no_network_fallback=False,
                                    no_gui_fallback=True)
+
+    def initialize(self):
+        try:
+            self.wolfie = WolframAlphaSolver({
+                "units": self.config_core['system_unit'],
+                "appid": self.settings.get("api_key")
+            })
+        except Exception as err:
+            self.log.error("WolframAlphaSkill failed to initialize: %s", err)
 
     # explicit intents
     @intent_handler("search_wolfie.intent")
@@ -157,3 +159,7 @@ class WolframAlphaSkill(CommonQuerySkill):
                 ans = ans.replace(" | ", "; ")
                 self.speak(ans)
             self.idx += 1
+
+
+def create_skill():
+    return WolframAlphaSkill()
