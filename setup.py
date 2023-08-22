@@ -14,6 +14,8 @@ SKILL_PKG = SKILL_NAME.lower().replace('-', '_')
 PLUGIN_ENTRY_POINT = f'{SKILL_NAME.lower()}.{SKILL_AUTHOR.lower()}={SKILL_PKG}:{SKILL_CLAZZ}'
 # skill_id=package_name:SkillClass
 
+SOLVER_ENTRY_POINT = f'ovos-solver-plugin-wolfram-alpha={SKILL_PKG}:WolframAlphaSolver'
+
 
 def get_requirements(requirements_filename: str):
     requirements_file = path.join(path.abspath(path.dirname(__file__)),
@@ -57,7 +59,7 @@ with open("./version.py", "r", encoding="utf-8") as v:
 setup(
     name=PYPI_NAME,
     version=version,
-    description='mycroft/ovos wolfram alpha skill plugin',
+    description='ovos wolfram alpha skill plugin',
     long_description=long_description,
     url=URL,
     author='JarbasAi',
@@ -69,5 +71,6 @@ setup(
     include_package_data=True,
     install_requires=get_requirements("requirements.txt"),
     keywords='ovos skill plugin',
-    entry_points={'ovos.plugin.skill': PLUGIN_ENTRY_POINT}
+    entry_points={'ovos.plugin.skill': PLUGIN_ENTRY_POINT,
+                  'neon.plugin.solver': SOLVER_ENTRY_POINT}
 )

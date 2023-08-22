@@ -10,16 +10,200 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from os.path import join
 
-from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
+import tempfile
+from os.path import join, isfile
+
+import requests
+from ovos_backend_client.api import WolframAlphaApi as _WA
 from ovos_bus_client import Message
+from ovos_config import Configuration
+from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
 from ovos_utils.gui import can_use_gui
 from ovos_utils.intents import IntentBuilder
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+
+
+class WolframAlphaApi(_WA):
+    def get_image(self, query):
+        """
+        query assured to be in self.default_lang
+        return path/url to a single image to acompany spoken_answer
+        """
+        # TODO - extend backend-client method for picture
+        units = Configuration().get("system_unit", "metric")
+        url = 'http://api.wolframalpha.com/v1/simple'
+        params = {"appid": self.credentials["wolfram"],
+                  "i": query,
+                  # "background": "F5F5F5",
+                  "layout": "labelbar",
+                  "units": units}
+        path = join(tempfile.gettempdir(), query.replace(" ", "_") + ".gif")
+        if not isfile(path):
+            image = requests.get(url, params=params).content
+            with open(path, "wb") as f:
+                f.write(image)
+        return path
+
+
+class WolframAlphaSolver(QuestionSolver):
+    priority = 25
+    enable_cache = True
+    enable_tx = True
+
+    def __init__(self, config=None):
+        config = config or {}
+        config["lang"] = "en"  # only supports english
+        super().__init__(config=config)
+        self.api = WolframAlphaApi(key=self.config.get("appid") or "Y7R353-9HQAAL8KKA")
+
+    @staticmethod
+    def make_speakable(summary):
+        # let's remove unwanted data from parantheses
+        #  - many results have (human: XX unit) ref values, remove them
+        if "(human: " in summary:
+            splits = summary.split("(human: ")
+            for idx, s in enumerate(splits):
+                splits[idx] = ")".join(s.split(")")[1:])
+            summary = " ".join(splits)
+
+        # remove duplicated units in text
+        # TODO probably there's a lot more to add here....
+        replaces = {
+            "cm (centimeters)": "centimeters",
+            "cm³ (cubic centimeters)": "cubic centimeters",
+            "cm² (square centimeters)": "square centimeters",
+            "mm (millimeters)": "millimeters",
+            "mm² (square millimeters)": "square millimeters",
+            "mm³ (cubic millimeters)": "cubic millimeters",
+            "kg (kilograms)": "kilograms",
+            "kHz (kilohertz)": "kilohertz",
+            "ns (nanoseconds)": "nanoseconds",
+            "µs (microseconds)": "microseconds",
+            "m/s (meters per second)": "meters per second",
+            "km/s (kilometers per second)": "kilometers per second",
+            "mi/s (miles per second)": "miles per second",
+            "mph (miles per hour)": "miles per hour",
+            "ª (degrees)": " degrees"
+        }
+        for k, v in replaces.items():
+            summary = summary.replace(k, v)
+
+        # replace units, only if they are individual words
+        units = {
+            "cm": "centimeters",
+            "cm³": "cubic centimeters",
+            "cm²": "square centimeters",
+            "mm": "millimeters",
+            "mm²": "square millimeters",
+            "mm³": "cubic millimeters",
+            "kg": "kilograms",
+            "kHz": "kilohertz",
+            "ns": "nanoseconds",
+            "µs": "microseconds",
+            "m/s": "meters per second",
+            "km/s": "kilometers per second",
+            "mi/s": "miles per second",
+            "mph": "miles per hour"
+        }
+        words = [w if w not in units else units[w]
+                 for w in summary.split(" ")]
+        summary = " ".join(words)
+
+        return summary
+
+    # data api
+    def get_data(self, query, context=None):
+        """
+       query assured to be in self.default_lang
+       return a dict response
+       """
+        units = Configuration().get("system_unit", "metric")
+        return self.api.full_results(query, units=units)
+
+    # image api (simple)
+    def get_image(self, query, context=None):
+        """
+        query assured to be in self.default_lang
+        return path/url to a single image to acompany spoken_answer
+        """
+        return self.api.get_image(query)
+
+    # spoken answers api (spoken)
+    def get_spoken_answer(self, query, context):
+        """
+        query assured to be in self.default_lang
+        return a single sentence text response
+        """
+        units = Configuration().get("system_unit", "metric")
+        answer = self.api.spoken(query, units=units)
+        bad_answers = ["no spoken result available",
+                       "wolfram alpha did not understand your input"]
+        if answer.lower().strip() in bad_answers:
+            return None
+        return answer
+
+    def get_expanded_answer(self, query, context=None):
+        """
+        query assured to be in self.default_lang
+        return a list of ordered steps to expand the answer, eg, "tell me more"
+
+        {
+            "title": "optional",
+            "summary": "speak this",
+            "img": "optional/path/or/url
+        }
+
+        """
+        data = self.get_data(query, context)
+        # these are returned in spoken answer or otherwise unwanted
+        skip = ['Input interpretation', 'Interpretation',
+                'Result', 'Value', 'Image']
+        steps = []
+
+        for pod in data['queryresult'].get('pods', []):
+            title = pod["title"]
+            if title in skip:
+                continue
+
+            for sub in pod["subpods"]:
+                subpod = {"title": title}
+                summary = sub["img"]["alt"]
+                subtitle = sub.get("title") or sub["img"]["title"]
+                if subtitle and subtitle != summary:
+                    subpod["title"] = subtitle
+
+                if summary == title:
+                    # it's an image result
+                    subpod["img"] = sub["img"]["src"]
+                elif summary.startswith("(") and summary.endswith(")"):
+                    continue
+                else:
+                    subpod["summary"] = summary
+                steps.append(subpod)
+
+        # do any extra processing here
+        prev = ""
+        for idx, step in enumerate(steps):
+            # merge steps
+            if step["title"] == prev:
+                summary = steps[idx - 1]["summary"] + "\n" + step["summary"]
+                steps[idx]["summary"] = summary
+                steps[idx]["img"] = step.get("img") or steps[idx - 1].get("img")
+                steps[idx - 1] = None
+            elif step.get("summary") and step["title"]:
+                # inject title in speech, eg we do not want wolfram to just read family names without context
+                steps[idx]["summary"] = step["title"] + ".\n" + step["summary"]
+
+            # normalize summary
+            if step.get("summary"):
+                steps[idx]["summary"] = self.make_speakable(steps[idx]["summary"])
+
+            prev = step["title"]
+        return [s for s in steps if s]
 
 
 class WolframAlphaSkill(CommonQuerySkill):
@@ -52,7 +236,7 @@ class WolframAlphaSkill(CommonQuerySkill):
             'Scrabble score',  # spammy
             'Other notable uses'  # spammy
         ]
-      
+
     @property
     def wolfie(self):
         # property to allow api key changes in config
@@ -64,7 +248,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         except Exception as err:
             self.log.error("WolframAlphaSkill failed to initialize: %s", err)
         return None
-        
+
     @classproperty
     def runtime_requirements(self):
         return RuntimeRequirements(internet_before_load=True,
@@ -161,3 +345,48 @@ class WolframAlphaSkill(CommonQuerySkill):
                 ans = ans.replace(" | ", "; ")
                 self.speak(ans)
             self.idx += 1
+
+
+if __name__ == "__main__":
+    d = WolframAlphaSolver()
+
+    query = "who is Isaac Newton"
+
+    # full answer
+    ans = d.spoken_answer(query)
+    print(ans)
+    # Sir Isaac Newton (25 December 1642 – 20 March 1726/27) was an English mathematician, physicist, astronomer, alchemist, theologian, and author (described in his time as a "natural philosopher") widely recognised as one of the greatest mathematicians and physicists of all time and among the most influential scientists.
+
+    ans = d.visual_answer(query)
+    print(ans)
+    # /tmp/who_is_Isaac_Newton.gif
+
+    # chunked answer, "tell me more"
+    for sentence in d.long_answer(query):
+        print("#", sentence["title"])
+        print(sentence.get("summary"), sentence.get("img"))
+
+        # who is Isaac Newton
+        # Sir Isaac Newton was an English mathematician, physicist, astronomer, alchemist, theologian, and author widely recognised as one of the greatest mathematicians and physicists of all time and among the most influential scientists.
+        # https://duckduckgo.com/i/ea7be744.jpg
+
+        # who is Isaac Newton
+        # He was a key figure in the philosophical revolution known as the Enlightenment.
+        # https://duckduckgo.com/i/ea7be744.jpg
+
+        # who is Isaac Newton
+        # His book Philosophiæ Naturalis Principia Mathematica, first published in 1687, established classical mechanics.
+        # https://duckduckgo.com/i/ea7be744.jpg
+
+        # who is Isaac Newton
+        # Newton also made seminal contributions to optics, and shares credit with German mathematician Gottfried Wilhelm Leibniz for developing infinitesimal calculus.
+        # https://duckduckgo.com/i/ea7be744.jpg
+
+        # who is Isaac Newton
+        # In the Principia, Newton formulated the laws of motion and universal gravitation that formed the dominant scientific viewpoint until it was superseded by the theory of relativity.
+        # https://duckduckgo.com/i/ea7be744.jpg
+
+    # bidirectional auto translate by passing lang context
+    sentence = d.spoken_answer("Quem é Isaac Newton",
+                               context={"lang": "pt"})
+    print(sentence)
