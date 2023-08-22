@@ -59,6 +59,8 @@ class WolframAlphaSolver(QuestionSolver):
         config["lang"] = "en"  # only supports english
         super().__init__(config=config)
         self.api = WolframAlphaApi(key=self.config.get("appid") or "Y7R353-9HQAAL8KKA")
+        # TODO - debug, key doesnt seem to be passed along to base class ???
+        self.api.backend.credentials = self.api.credentials
 
     @staticmethod
     def make_speakable(summary):
