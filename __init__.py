@@ -12,19 +12,19 @@
 #
 from os.path import join
 
-from adapt.intent import IntentBuilder
-from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
-from mycroft.skills.core import intent_handler
-from ovos_utils.gui import can_use_gui
-from ovos_utils.process_utils import RuntimeRequirements
-from ovos_utils import classproperty
 from neon_solver_wolfram_alpha_plugin import WolframAlphaSolver
+from ovos_bus_client import Message
+from ovos_utils import classproperty
+from ovos_utils.gui import can_use_gui
+from ovos_utils.intents import IntentBuilder
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_workshop.decorators import intent_handler
+from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 
 
 class WolframAlphaSkill(CommonQuerySkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.wolfie = None
         # continuous dialog, "tell me more"
         self.idx = 0
         self.last_query = None
@@ -52,7 +52,19 @@ class WolframAlphaSkill(CommonQuerySkill):
             'Scrabble score',  # spammy
             'Other notable uses'  # spammy
         ]
-
+      
+    @property
+    def wolfie(self):
+        # property to allow api key changes in config
+        try:
+            return WolframAlphaSolver({
+                "units": self.config_core['system_unit'],
+                "appid": self.settings.get("api_key")
+            })
+        except Exception as err:
+            self.log.error("WolframAlphaSkill failed to initialize: %s", err)
+        return None
+        
     @classproperty
     def runtime_requirements(self):
         return RuntimeRequirements(internet_before_load=True,
@@ -65,15 +77,9 @@ class WolframAlphaSkill(CommonQuerySkill):
                                    no_network_fallback=False,
                                    no_gui_fallback=True)
 
-    def initialize(self):
-        self.wolfie = WolframAlphaSolver({
-            "units": self.config_core['system_unit'],
-            "appid": self.settings.get("api_key")
-        })
-
     # explicit intents
     @intent_handler("search_wolfie.intent")
-    def handle_search(self, message):
+    def handle_search(self, message: Message):
         query = message.data["query"]
         response = self.ask_the_wolf(query)
         if response:
@@ -83,25 +89,29 @@ class WolframAlphaSkill(CommonQuerySkill):
 
     @intent_handler(IntentBuilder("WolfieMore").require("More").
                     require("WolfieKnows"))
-    def handle_tell_more(self, message):
+    def handle_tell_more(self, message: Message):
         """ Follow up query handler, "tell me more"."""
         self.speak_result()
 
     # common query integration
-    def CQS_match_query_phrase(self, utt):
-        self.log.debug("WolframAlpha query: " + utt)
-        response = self.ask_the_wolf(utt)
+    def CQS_match_query_phrase(self, phrase: str):
+        self.log.debug("WolframAlpha query: " + phrase)
+        if self.wolfie is None:
+            self.log.error("WolframAlphaSkill not initialized, no response")
+            return
+        response = self.ask_the_wolf(phrase)
         if response:
             self.idx += 1  # spoken by common query framework
-            return (utt, CQSMatchLevel.GENERAL, response,
-                    {'query': utt, 'answer': response})
+            self.log.debug("WolframAlpha response: %s", response)
+            return (phrase, CQSMatchLevel.GENERAL, response,
+                    {'query': phrase, 'answer': response})
 
-    def CQS_action(self, phrase, data):
+    def CQS_action(self, phrase: str, data: dict):
         """ If selected show gui """
         self.display_wolfie()
 
     # wolfram integration
-    def ask_the_wolf(self, query):
+    def ask_the_wolf(self, query: str):
         # context for follow up questions
         self.set_context("WolfieKnows", query)
         results = self.wolfie.long_answer(query,
@@ -111,6 +121,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         self.results = [s for s in results if s.get("title") not in self.skips]
         if len(self.results):
             return self.results[0]["summary"]
+        self.log.debug("WolframAlpha had no answers for %s", query)
 
     def display_wolfie(self):
         if not can_use_gui(self.bus):
@@ -150,7 +161,3 @@ class WolframAlphaSkill(CommonQuerySkill):
                 ans = ans.replace(" | ", "; ")
                 self.speak(ans)
             self.idx += 1
-
-
-def create_skill():
-    return WolframAlphaSkill()
