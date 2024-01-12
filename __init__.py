@@ -17,13 +17,13 @@ from os.path import join, isfile
 import requests
 from ovos_backend_client.api import WolframAlphaApi as _WA
 from ovos_bus_client import Message
+from ovos_bus_client.session import SessionManager
 from ovos_config import Configuration
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
 from ovos_utils.gui import can_use_gui
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
-from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 
 
@@ -211,45 +211,11 @@ class WolframAlphaSolver(QuestionSolver):
 class WolframAlphaSkill(CommonQuerySkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # continuous dialog, "tell me more"
-        self.idx = 0
-        self.last_query = None
-        self.results = []
-
-        # answer processing options
-        self.skip_images = True  # some wolfram results are pictures with no speech
-        # if a gui is available the title is read and image displayed
-
-        # These results are usually unwanted as spoken responses
-        # they are either spammy or cant be handled by TTS properly
-        self.skips = [
-            # quantities, eg speed of light
-            'Comparison',  # spammy
-            'Corresponding quantities',  # spammy
-            'Basic unit dimensions',  # TTS will fail hard 99% of time
-            # when asking about word definitions
-            'American pronunciation',  # can not pronounce IPA phonemes
-            'Translations',  # TTS wont handle other langs or charsets
-            'Hyphenation',  # spammy
-            'Anagrams',  # spammy
-            'Lexically close words',  # spammy
-            'Overall typical frequency',  # spammy
-            'Crossword puzzle clues',  # spammy
-            'Scrabble score',  # spammy
-            'Other notable uses'  # spammy
-        ]
-
-    @property
-    def wolfie(self):
-        # property to allow api key changes in config
-        try:
-            return WolframAlphaSolver({
-                "units": self.config_core['system_unit'],
-                "appid": self.settings.get("api_key")
-            })
-        except Exception as err:
-            self.log.error("WolframAlphaSkill failed to initialize: %s", err)
-        return None
+        self.session_results = {}  # session_id: {}
+        self.wolfie = WolframAlphaSolver({
+            "units": self.config_core['system_unit'],
+            "appid": self.settings.get("api_key")
+        })
 
     @classproperty
     def runtime_requirements(self):
@@ -267,17 +233,16 @@ class WolframAlphaSkill(CommonQuerySkill):
     @intent_handler("search_wolfie.intent")
     def handle_search(self, message: Message):
         query = message.data["query"]
+        sess = SessionManager.get(message)
+        self.session_results[sess.session_id] = {"phrase": query,
+                                                 "image": None,
+                                                 "spoken_answer": ""}
         response = self.ask_the_wolf(query)
         if response:
-            self.speak_result()
+            self.session_results[sess.session_id]["spoken_answer"] = response
+            self.speak(response)
         else:
             self.speak_dialog("no_answer")
-
-    @intent_handler(IntentBuilder("WolfieMore").require("More").
-                    require("WolfieKnows"))
-    def handle_tell_more(self, message: Message):
-        """ Follow up query handler, "tell me more"."""
-        self.speak_result()
 
     # common query integration
     def CQS_match_query_phrase(self, phrase: str):
@@ -285,10 +250,16 @@ class WolframAlphaSkill(CommonQuerySkill):
         if self.wolfie is None:
             self.log.error("WolframAlphaSkill not initialized, no response")
             return
+
+        sess = SessionManager.get()
+        self.session_results[sess.session_id] = {"phrase": phrase,
+                                                 "image": None,
+                                                 "spoken_answer": None}
+
         response = self.ask_the_wolf(phrase)
         if response:
-            self.idx += 1  # spoken by common query framework
-            self.log.debug("WolframAlpha response: %s", response)
+            self.session_results[sess.session_id]["spoken_answer"] = response
+            self.log.debug(f"WolframAlpha response: {response}")
             return (phrase, CQSMatchLevel.GENERAL, response,
                     {'query': phrase, 'answer': response})
 
@@ -297,60 +268,49 @@ class WolframAlphaSkill(CommonQuerySkill):
         self.display_wolfie()
 
     # wolfram integration
-    def ask_the_wolf(self, query: str):
-        # context for follow up questions
-        self.set_context("WolfieKnows", query)
-        results = self.wolfie.long_answer(query,
-                                          context={"lang": self.lang})
-        self.idx = 0
-        self.last_query = query
-        self.results = [s for s in results if s.get("title") not in self.skips]
-        if len(self.results):
-            return self.results[0]["summary"]
-        self.log.debug("WolframAlpha had no answers for %s", query)
+    def ask_the_wolf(self, query: str, lang: str = None):
+        lang = lang or self.lang
+        if lang.startswith("en"):
+            self.log.debug(f"skipping auto translation for wolfram alpha, "
+                           f"{lang} is supported")
+            WolframAlphaSolver.enable_tx = False
+        else:
+            self.log.info(f"enabling auto translation for wolfram alpha, "
+                          f"{lang} is not supported internally")
+            WolframAlphaSolver.enable_tx = True
+        return self.wolfie.spoken_answer(query, context={"lang": lang})
 
     def display_wolfie(self):
         if not can_use_gui(self.bus):
             return
-        image = None
-        # issues can happen if skill reloads
-        # eg. "tell me more" -> invalid self.idx
-        if self.idx < len(self.results):
-            image = self.results[self.idx].get("img")
-        if self.last_query:
-            image = image or self.wolfie.visual_answer(self.last_query,
-                                                       context={"lang": self.lang})
+
+        # generate image for the last query this session made
+        # only after skill was selected for speed
+        sess = SessionManager.get()
+        res = self.session_results.get(sess.session_id)
+        if not res or not res["spoken_response"]:
+            return
+
+        image = res.get("image") or self.wolfie.visual_answer(res["phrase"],
+                                                              context={"lang": self.lang})
         if image:
             self.gui["wolfram_image"] = image
             # scrollable full result page
-            self.gui.show_page(join(self.root_dir, "ui", "wolf.qml"), override_idle=45)
+            self.gui.show_page(join(self.root_dir, "ui", "wolf"), override_idle=45)
 
-    def speak_result(self):
-        if self.idx + 1 > len(self.results):
-            self.speak_dialog("thats all")
-            self.remove_context("WolfieKnows")
-            self.idx = 0
-        else:
-            if not self.results[self.idx].get("summary"):
-                if not self.skip_images and can_use_gui(self.bus):
-                    self.speak(self.results[self.idx]["title"])
-                    self.display_wolfie()
-                else:
-                    # skip image only result
-                    self.idx += 1
-                    self.speak_result()
-                    return
-            else:
-                self.display_wolfie()
-                # make it more speech friendly
-                ans = self.results[self.idx]["summary"]
-                ans = ans.replace(" | ", "; ")
-                self.speak(ans)
-            self.idx += 1
+    def stop_session(self, sess):
+        if sess.session_id in self.session_results:
+            self.session_results.pop(sess.session_id)
 
 
 if __name__ == "__main__":
-    d = WolframAlphaSolver()
+    from ovos_utils.fakebus import FakeBus
+
+    d = WolframAlphaSkill(bus=FakeBus(), skill_id="fake.wolf")
+
+    print(d.ask_the_wolf("what is the speed of light"))
+
+    exit()
 
     query = "who is Isaac Newton"
 
