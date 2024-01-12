@@ -288,7 +288,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         # only after skill was selected for speed
         sess = SessionManager.get()
         res = self.session_results.get(sess.session_id)
-        if not res or not res["spoken_response"]:
+        if not res or not res["spoken_answer"]:
             return
 
         image = res.get("image") or self.wolfie.visual_answer(res["phrase"],
