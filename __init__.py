@@ -24,7 +24,6 @@ from ovos_utils import classproperty
 from ovos_utils.gui import can_use_gui
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
-from ovos_workshop.intents import IntentBuilder
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 
 
@@ -257,11 +256,11 @@ class WolframAlphaSkill(CommonQuerySkill):
                                                  "image": None,
                                                  "spoken_answer": None}
 
-        response = self.ask_the_wolf(phrase)
+        response = self.ask_the_wolf(phrase, sess.lang)
         if response:
             self.session_results[sess.session_id]["spoken_answer"] = response
             self.log.debug(f"WolframAlpha response: {response}")
-            return (phrase, CQSMatchLevel.GENERAL, response,
+            return (phrase, CQSMatchLevel.EXACT, response,
                     {'query': phrase, 'answer': response})
 
     def CQS_action(self, phrase: str, data: dict):
@@ -289,7 +288,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         # only after skill was selected for speed
         sess = SessionManager.get()
         res = self.session_results.get(sess.session_id)
-        if not res or not res["spoken_answer"]:
+        if not res or not res["spoken_response"]:
             return
 
         image = res.get("image") or self.wolfie.visual_answer(res["phrase"],
