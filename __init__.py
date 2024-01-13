@@ -256,11 +256,11 @@ class WolframAlphaSkill(CommonQuerySkill):
                                                  "image": None,
                                                  "spoken_answer": None}
 
-        response = self.ask_the_wolf(phrase)
+        response = self.ask_the_wolf(phrase, sess.lang)
         if response:
             self.session_results[sess.session_id]["spoken_answer"] = response
             self.log.debug(f"WolframAlpha response: {response}")
-            return (phrase, CQSMatchLevel.GENERAL, response,
+            return (phrase, CQSMatchLevel.EXACT, response,
                     {'query': phrase, 'answer': response})
 
     def CQS_action(self, phrase: str, data: dict):
