@@ -296,7 +296,7 @@ class WolframAlphaSkill(CommonQuerySkill):
         if image:
             self.gui["wolfram_image"] = image
             # scrollable full result page
-            self.gui.show_page(join(self.root_dir, "ui", "wolf"), override_idle=45)
+            self.gui.show_page(join(self.root_dir, "qt5", "wolf"), override_idle=45)
 
     def stop_session(self, sess):
         if sess.session_id in self.session_results:
