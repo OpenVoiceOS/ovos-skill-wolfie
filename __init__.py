@@ -28,13 +28,13 @@ from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLe
 
 
 class WolframAlphaApi(_WA):
-    def get_image(self, query):
+    def get_image(self, query: str, units: str = None):
         """
         query assured to be in self.default_lang
         return path/url to a single image to acompany spoken_answer
         """
         # TODO - extend backend-client method for picture
-        units = Configuration().get("system_unit", "metric")
+        units = units or Configuration().get("system_unit", "metric")
         url = 'http://api.wolframalpha.com/v1/simple'
         params = {"appid": self.credentials["wolfram"],
                   "i": query,
@@ -123,7 +123,7 @@ class WolframAlphaSolver(QuestionSolver):
        query assured to be in self.default_lang
        return a dict response
        """
-        units = Configuration().get("system_unit", "metric")
+        units = context.get("units") or Configuration().get("system_unit", "metric")
         return self.api.full_results(query, units=units)
 
     # image api (simple)
@@ -132,7 +132,8 @@ class WolframAlphaSolver(QuestionSolver):
         query assured to be in self.default_lang
         return path/url to a single image to acompany spoken_answer
         """
-        return self.api.get_image(query)
+        units = context.get("units") or Configuration().get("system_unit", "metric")
+        return self.api.get_image(query, units)
 
     # spoken answers api (spoken)
     def get_spoken_answer(self, query, context):
@@ -140,7 +141,7 @@ class WolframAlphaSolver(QuestionSolver):
         query assured to be in self.default_lang
         return a single sentence text response
         """
-        units = Configuration().get("system_unit", "metric")
+        units = context.get("units") or Configuration().get("system_unit", "metric")
         answer = self.api.spoken(query, units=units)
         bad_answers = ["no spoken result available",
                        "wolfram alpha did not understand your input"]
@@ -158,7 +159,6 @@ class WolframAlphaSolver(QuestionSolver):
             "summary": "speak this",
             "img": "optional/path/or/url
         }
-
         """
         data = self.get_data(query, context)
         # these are returned in spoken answer or otherwise unwanted
@@ -213,12 +213,12 @@ class WolframAlphaSkill(CommonQuerySkill):
         super().__init__(*args, **kwargs)
         self.session_results = {}  # session_id: {}
         self.wolfie = WolframAlphaSolver({
-            "units": self.config_core['system_unit'],
             "appid": self.settings.get("api_key")
         })
 
     @classproperty
     def runtime_requirements(self):
+        """this skill requires internet"""
         return RuntimeRequirements(internet_before_load=True,
                                    network_before_load=True,
                                    gui_before_load=False,
@@ -236,8 +236,10 @@ class WolframAlphaSkill(CommonQuerySkill):
         sess = SessionManager.get(message)
         self.session_results[sess.session_id] = {"phrase": query,
                                                  "image": None,
+                                                 "lang": sess.lang,
+                                                 "system_unit": sess.system_unit,
                                                  "spoken_answer": ""}
-        response = self.ask_the_wolf(query)
+        response = self.ask_the_wolf(query, sess.lang, sess.system_unit)
         if response:
             self.session_results[sess.session_id]["spoken_answer"] = response
             self.speak(response)
@@ -254,9 +256,11 @@ class WolframAlphaSkill(CommonQuerySkill):
         sess = SessionManager.get()
         self.session_results[sess.session_id] = {"phrase": phrase,
                                                  "image": None,
+                                                 "lang": sess.lang,
+                                                 "system_unit": sess.system_unit,
                                                  "spoken_answer": None}
 
-        response = self.ask_the_wolf(phrase, sess.lang)
+        response = self.ask_the_wolf(phrase, sess.lang, sess.system_unit)
         if response:
             self.session_results[sess.session_id]["spoken_answer"] = response
             self.log.debug(f"WolframAlpha response: {response}")
@@ -268,7 +272,8 @@ class WolframAlphaSkill(CommonQuerySkill):
         self.display_wolfie()
 
     # wolfram integration
-    def ask_the_wolf(self, query: str, lang: str = None):
+    def ask_the_wolf(self, query: str, lang: str = None, units: str = None):
+        units = units or self.system_unit
         lang = lang or self.lang
         if lang.startswith("en"):
             self.log.debug(f"skipping auto translation for wolfram alpha, "
@@ -278,7 +283,8 @@ class WolframAlphaSkill(CommonQuerySkill):
             self.log.info(f"enabling auto translation for wolfram alpha, "
                           f"{lang} is not supported internally")
             WolframAlphaSolver.enable_tx = True
-        return self.wolfie.spoken_answer(query, context={"lang": lang})
+        return self.wolfie.spoken_answer(query,
+                                         context={"lang": lang, "units": units})
 
     def display_wolfie(self):
         if not can_use_gui(self.bus):
@@ -292,11 +298,12 @@ class WolframAlphaSkill(CommonQuerySkill):
             return
 
         image = res.get("image") or self.wolfie.visual_answer(res["phrase"],
-                                                              context={"lang": self.lang})
+                                                              context={"lang": sess.lang,
+                                                                       "units": sess.system_unit})
         if image:
             self.gui["wolfram_image"] = image
             # scrollable full result page
-            self.gui.show_page(join(self.root_dir, "qt5", "wolf"), override_idle=45)
+            self.gui.show_page("wolf", override_idle=45)
 
     def stop_session(self, sess):
         if sess.session_id in self.session_results:
