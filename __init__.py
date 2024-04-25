@@ -51,7 +51,7 @@ class WolframAlphaApi(_WA):
 
 class WolframAlphaSolver(QuestionSolver):
     priority = 25
-    enable_cache = True
+    enable_cache = False
     enable_tx = True
 
     def __init__(self, config=None):
@@ -274,6 +274,9 @@ class WolframAlphaSkill(CommonQuerySkill):
     # wolfram integration
     def ask_the_wolf(self, query: str, lang: str = None, units: str = None):
         units = units or self.system_unit
+        if units != "metric":
+            units = "nonmetric"  # what wolfram api expects
+
         lang = lang or self.lang
         if lang.startswith("en"):
             self.log.debug(f"skipping auto translation for wolfram alpha, "
@@ -315,7 +318,12 @@ if __name__ == "__main__":
 
     d = WolframAlphaSkill(bus=FakeBus(), skill_id="fake.wolf")
 
-    print(d.ask_the_wolf("what is the speed of light"))
+    print(d.ask_the_wolf("what is the speed of light", units="nonmetric"))  # SI units regardless
+    # The speed of light has a value of about 300 million meters per second
+    print(d.ask_the_wolf("how tall is the eiffel tower", units="metric"))
+    print(d.ask_the_wolf("how tall is the eiffel tower", units="nonmetric"))
+    # The total height of the Eiffel Tower is 330 meters
+    # The total height of the Eiffel Tower is about 1083 feet
 
     exit()
 
