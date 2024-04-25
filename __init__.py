@@ -270,10 +270,9 @@ class WolframAlphaSkill(CommonQuerySkill):
         """ If selected show gui """
         # generate image for the query after skill was selected for speed
         image = self.wolfie.visual_answer(phrase, context=data)
-        if image:
-            self.gui["wolfram_image"] = image
-            # scrollable full result page
-            self.gui.show_page("wolf", override_idle=45)
+        self.gui["wolfram_image"] = image or f"{self.root_dir}/res/logo.png"
+        # scrollable full result page
+        self.gui.show_page("wolf", override_idle=45)
 
     # wolfram integration
     def ask_the_wolf(self, query: str,
