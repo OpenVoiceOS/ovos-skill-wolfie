@@ -13,7 +13,7 @@
 
 import tempfile
 from os.path import join, isfile
-
+from typing import Optional
 import requests
 from ovos_backend_client.api import WolframAlphaApi as _WA
 from ovos_bus_client import Message
@@ -21,14 +21,13 @@ from ovos_bus_client.session import SessionManager
 from ovos_config import Configuration
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
-from ovos_utils.gui import can_use_gui
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
 
 
 class WolframAlphaApi(_WA):
-    def get_image(self, query: str, units: str = None):
+    def get_image(self, query: str, units: Optional[str] = None):
         """
         query assured to be in self.default_lang
         return path/url to a single image to acompany spoken_answer
@@ -269,10 +268,17 @@ class WolframAlphaSkill(CommonQuerySkill):
 
     def CQS_action(self, phrase: str, data: dict):
         """ If selected show gui """
-        self.display_wolfie()
+        # generate image for the query after skill was selected for speed
+        image = self.wolfie.visual_answer(phrase, context=data)
+        if image:
+            self.gui["wolfram_image"] = image
+            # scrollable full result page
+            self.gui.show_page("wolf", override_idle=45)
 
     # wolfram integration
-    def ask_the_wolf(self, query: str, lang: str = None, units: str = None):
+    def ask_the_wolf(self, query: str,
+                     lang: Optional[str] = None,
+                     units: Optional[str] = None):
         units = units or self.system_unit
         if units != "metric":
             units = "nonmetric"  # what wolfram api expects
@@ -288,25 +294,6 @@ class WolframAlphaSkill(CommonQuerySkill):
             WolframAlphaSolver.enable_tx = True
         return self.wolfie.spoken_answer(query,
                                          context={"lang": lang, "units": units})
-
-    def display_wolfie(self):
-        if not can_use_gui(self.bus):
-            return
-
-        # generate image for the last query this session made
-        # only after skill was selected for speed
-        sess = SessionManager.get()
-        res = self.session_results.get(sess.session_id)
-        if not res or not res["spoken_response"]:
-            return
-
-        image = res.get("image") or self.wolfie.visual_answer(res["phrase"],
-                                                              context={"lang": sess.lang,
-                                                                       "units": sess.system_unit})
-        if image:
-            self.gui["wolfram_image"] = image
-            # scrollable full result page
-            self.gui.show_page("wolf", override_idle=45)
 
     def stop_session(self, sess):
         if sess.session_id in self.session_results:
