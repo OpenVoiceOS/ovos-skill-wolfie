@@ -11,8 +11,6 @@ You'll be surprised by how much it knows!
 
 You can also explicitly request to "ask the wolf"
 
-NOTE: this is meant to be a better alternative to the official mycroft skill, it will blacklist the official skill!!
-
 ## Examples
 * "ask the wolf what is the speed of light"
 * "How tall is Mount Everest?"
