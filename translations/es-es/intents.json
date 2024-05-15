@@ -1,0 +1,13 @@
+{
+    "search_wolfie.intent": [
+        "\u00bfQu\u00e9 dice el lobo acerca de {query}",
+        "Preg\u00fantale al lobo",
+        "buscar el lobo para {query}",
+        "\u00bfQu\u00e9 dice Wolfram Alpha sobre {query}",
+        "buscar wolfram para {query}",
+        "\u00bfQu\u00e9 dice wolfram acerca de {query}",
+        "Preg\u00fantale al loboram alpha sobre {query}",
+        "Preg\u00fantale al wolfram sobre {query}",
+        "buscar wolfram alpha para {query}"
+    ]
+}

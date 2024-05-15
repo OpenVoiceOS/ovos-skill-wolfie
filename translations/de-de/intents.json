@@ -1,0 +1,13 @@
+{
+    "search_wolfie.intent": [
+        "fragen Sie den Wolf \u00fcber {query}",
+        "Suche den Wolf nach {query}",
+        "was sagt Wolfram \u00fcber {query}",
+        "was sagt der Wolf \u00fcber {query}",
+        "Suche Wolf f\u00fcr {query}",
+        "was sagt Wolf alpha \u00fcber {query}",
+        "Suche wolfram alpha nach {query}",
+        "fragen Sie den Wolf {query}",
+        "Fragen Sie den Wolf alpha \u00fcber {query}"
+    ]
+}
