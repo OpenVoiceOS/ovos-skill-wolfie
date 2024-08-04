@@ -14,6 +14,7 @@
 import tempfile
 from os.path import join, isfile
 from typing import Optional
+
 import requests
 from ovos_backend_client.api import WolframAlphaApi as _WA
 from ovos_bus_client import Message
@@ -62,7 +63,7 @@ class WolframAlphaSolver(QuestionSolver):
         self.api.backend.credentials = self.api.credentials
 
     @staticmethod
-    def make_speakable(summary):
+    def make_speakable(summary: str):
         # let's remove unwanted data from parantheses
         #  - many results have (human: XX unit) ref values, remove them
         if "(human: " in summary:
@@ -117,30 +118,36 @@ class WolframAlphaSolver(QuestionSolver):
         return summary
 
     # data api
-    def get_data(self, query, context=None):
+    def get_data(self, query: str,
+                 lang: Optional[str] = None,
+                 units: Optional[str] = None):
         """
        query assured to be in self.default_lang
        return a dict response
        """
-        units = context.get("units") or Configuration().get("system_unit", "metric")
+        units = units or Configuration().get("system_unit", "metric")
         return self.api.full_results(query, units=units)
 
     # image api (simple)
-    def get_image(self, query, context=None):
+    def get_image(self, query: str,
+                  lang: Optional[str] = None,
+                  units: Optional[str] = None):
         """
         query assured to be in self.default_lang
         return path/url to a single image to acompany spoken_answer
         """
-        units = context.get("units") or Configuration().get("system_unit", "metric")
-        return self.api.get_image(query, units)
+        units = units or Configuration().get("system_unit", "metric")
+        return self.api.get_image(query, units=units)
 
     # spoken answers api (spoken)
-    def get_spoken_answer(self, query, context):
+    def get_spoken_answer(self, query: str,
+                          lang: Optional[str] = None,
+                          units: Optional[str] = None):
         """
         query assured to be in self.default_lang
         return a single sentence text response
         """
-        units = context.get("units") or Configuration().get("system_unit", "metric")
+        units = units or Configuration().get("system_unit", "metric")
         answer = self.api.spoken(query, units=units)
         bad_answers = ["no spoken result available",
                        "wolfram alpha did not understand your input"]
@@ -148,7 +155,9 @@ class WolframAlphaSolver(QuestionSolver):
             return None
         return answer
 
-    def get_expanded_answer(self, query, context=None):
+    def get_expanded_answer(self, query,
+                            lang: Optional[str] = None,
+                            units: Optional[str] = None):
         """
         query assured to be in self.default_lang
         return a list of ordered steps to expand the answer, eg, "tell me more"
@@ -159,7 +168,7 @@ class WolframAlphaSolver(QuestionSolver):
             "img": "optional/path/or/url
         }
         """
-        data = self.get_data(query, context)
+        data = self.get_data(query, lang, units)
         # these are returned in spoken answer or otherwise unwanted
         skip = ['Input interpretation', 'Interpretation',
                 'Result', 'Value', 'Image']
@@ -269,7 +278,7 @@ class WolframAlphaSkill(CommonQuerySkill):
     def CQS_action(self, phrase: str, data: dict):
         """ If selected show gui """
         # generate image for the query after skill was selected for speed
-        image = self.wolfie.visual_answer(phrase, context=data)
+        image = self.wolfie.visual_answer(phrase, lang=self.lang, units=self.system_unit)
         self.gui["wolfram_image"] = image or f"{self.root_dir}/res/logo.png"
         # scrollable full result page
         self.gui.show_page("wolf", override_idle=45)
@@ -291,8 +300,7 @@ class WolframAlphaSkill(CommonQuerySkill):
             self.log.info(f"enabling auto translation for wolfram alpha, "
                           f"{lang} is not supported internally")
             WolframAlphaSolver.enable_tx = True
-        return self.wolfie.spoken_answer(query,
-                                         context={"lang": lang, "units": units})
+        return self.wolfie.spoken_answer(query, lang=lang, units=units)
 
     def stop_session(self, sess):
         if sess.session_id in self.session_results:

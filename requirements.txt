@@ -2,4 +2,4 @@ ovos-translate-server-plugin
 ovos-config>=0.0.12
 ovos-utils~=0.0, >=0.0.38
 ovos_workshop~=0.0, >=0.0.16a25
-ovos-plugin-manager
+ovos-plugin-manager>=0.0.26a38
