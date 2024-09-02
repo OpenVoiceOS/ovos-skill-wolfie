@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/skill-ovos-wolfie/tree/HEAD)
+## [V0.1.0](https://github.com/OpenVoiceOS/skill-ovos-wolfie/tree/V0.1.0) (2024-09-02)
 
-[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-wolfie/compare/v0.1UPDATE_TEST...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/skill-ovos-wolfie/compare/v0.1UPDATE_TEST...V0.1.0)
 
 **Implemented enhancements:**
 
