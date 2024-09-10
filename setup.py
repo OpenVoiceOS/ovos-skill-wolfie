@@ -44,7 +44,7 @@ def find_resource_files():
     return package_data
 
 
-with open("README.md", "r") as f:
+with open(path.join(path.abspath(path.dirname(__file__)), "README.md"), "r") as f:
     long_description = f.read()
 
 
@@ -77,6 +77,7 @@ setup(
     version=get_version(),
     description='ovos wolfram alpha skill plugin',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url=URL,
     author='JarbasAi',
     author_email='jarbasai@mailfence.com',
