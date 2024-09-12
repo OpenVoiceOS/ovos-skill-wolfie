@@ -1,16 +1,12 @@
 # Changelog
 
-## [0.2.0a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.0a2) (2024-09-10)
+## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.1a1) (2024-09-12)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/V0.2.0a1...0.2.0a2)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.0...0.2.1a1)
 
 **Merged pull requests:**
 
-- chore:automations [\#28](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/28) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.2.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/V0.2.0a1) (2024-09-02)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/V0.1.0...V0.2.0a1)
+- fixed italian translation [\#31](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/31) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
 
 
 
