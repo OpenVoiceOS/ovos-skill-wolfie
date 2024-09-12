@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.2a1) (2024-09-12)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.1a1...0.2.2a1)
+
+**Merged pull requests:**
+
+- fixed italian translation [\#30](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/30) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
 ## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.1a1) (2024-09-12)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.0...0.2.1a1)
