@@ -8,6 +8,6 @@
     "(che|) cosa dice wolfram (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}",
     "chiedi al lupo (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}",
     "(ri|cerca) sul lupo (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le|) {query}",
-    null
+    "cosa dice wolfram (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}"
   ]
 }
