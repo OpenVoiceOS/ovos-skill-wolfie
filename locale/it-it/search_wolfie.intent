@@ -1,10 +1,9 @@
-# auto translated from en-us to it-it
-cerca il lupo per {query}
-ricerca wolfram per {query}
-che cosa dice wolfram alpha su {query}
-che cosa dice wolfram su {query}
-che cosa dice il lupo su {query}
-chiedere al lupo {query}
-chiedere al lupo alfa di {query}
-chiedere al lupo di {query}
-ricerca wolfram alpha per {query}
+(che|) cosa dice wolfram (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}
+(che|) cosa dice wolfram alpha (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}
+(ri|)cerca (su wolfram alpha {query}|{query} su wolfram alpha)
+(ri|)cerca (su wolfram {query}|{query} su wolfram)
+(ri|cerca) sul lupo (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le|) {query}
+chiedi a wolfram (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}
+chiedi a wolfram alpha (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}
+chiedi al lupo (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}
+cosa dice wolfram (di|su|del|dello|della|dell'|dei|degli|delle|sul|su il|sullo|su lo|sulla|su la|sull'|su l'|sui|su i|sugli|su gli|sulle|su le) {query}
