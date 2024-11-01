@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.2.4a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.4a1) (2024-10-15)
+## [0.2.5a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.5a1) (2024-11-01)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.3...0.2.4a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.4...0.2.5a1)
 
 **Merged pull requests:**
 
-- Add Catalan translation [\#34](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/34) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+- fix: workshop 2.0.0 [\#39](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/39) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
