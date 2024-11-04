@@ -1,12 +1,20 @@
 # Changelog
 
-## [0.2.5a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.5a1) (2024-11-01)
+## [0.2.6a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.6a1) (2024-11-04)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.4...0.2.5a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.6a1...0.2.6a1)
 
 **Merged pull requests:**
 
-- fix: workshop 2.0.0 [\#39](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/39) ([JarbasAl](https://github.com/JarbasAl))
+- fix: gui resources path [\#42](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/42) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.6a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.6a1) (2024-11-02)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.5...0.2.6a1)
+
+**Merged pull requests:**
+
+- da-dk/translate [\#41](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/41) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
 
 
 
