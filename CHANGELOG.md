@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.2.8a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.8a1) (2024-11-15)
+## [0.2.9a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.9a1) (2024-11-19)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.7...0.2.8a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.8...0.2.9a1)
 
 **Merged pull requests:**
 
-- fix: skill.json [\#43](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/43) ([JarbasAl](https://github.com/JarbasAl))
+- fix:allow workshop 3.0.0 [\#45](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/45) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
