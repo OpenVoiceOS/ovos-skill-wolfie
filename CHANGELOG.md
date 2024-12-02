@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.2.12a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.12a1) (2024-11-30)
+## [0.2.13a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.13a1) (2024-12-02)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.11...0.2.12a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.12...0.2.13a1)
 
 **Merged pull requests:**
 
-- de-de/translate [\#51](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/51) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+- import galician translations [\#53](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/53) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
