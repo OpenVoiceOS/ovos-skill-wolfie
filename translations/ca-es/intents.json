@@ -8,6 +8,6 @@
     "què (diu|explica) wolfram  (sobre|de) {query}",
     "(demana|pregunta) al llop (sobre|) {query}",
     "(cerca|busca) al llop (sobre|) {query}",
-    "què (diu|explica) )el|es) llop (sobre|de) {query}"
+    "què (diu|explica) (el|es) llop (sobre|de) {query}"
   ]
 }
