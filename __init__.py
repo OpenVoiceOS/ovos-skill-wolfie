@@ -13,7 +13,7 @@
 
 import tempfile
 from os.path import join, isfile
-from typing import Optional
+from typing import Optional, Tuple
 
 import requests
 from ovos_backend_client.api import WolframAlphaApi as _WA
@@ -23,8 +23,8 @@ from ovos_config import Configuration
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
-from ovos_workshop.decorators import intent_handler
-from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from ovos_workshop.decorators import intent_handler, common_query
+from ovos_workshop.skills.ovos import OVOSSkill
 
 
 class WolframAlphaApi(_WA):
@@ -216,7 +216,7 @@ class WolframAlphaSolver(QuestionSolver):
         return [s for s in steps if s]
 
 
-class WolframAlphaSkill(CommonQuerySkill):
+class WolframAlphaSkill(OVOSSkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.session_results = {}  # session_id: {}
@@ -255,7 +255,16 @@ class WolframAlphaSkill(CommonQuerySkill):
             self.speak_dialog("no_answer")
 
     # common query integration
-    def CQS_match_query_phrase(self, phrase: str):
+    def cq_callback(self, utterance: str, answer: str, lang: str):
+        """ If selected show gui """
+        # generate image for the query after skill was selected for speed
+        image = self.wolfie.visual_answer(utterance, lang=lang, units=self.system_unit)
+        self.gui["wolfram_image"] = image or "logo.png"
+        # scrollable full result page
+        self.gui.show_page("wolf", override_idle=45)
+
+    @common_query(callback=cq_callback)
+    def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
         self.log.debug("WolframAlpha query: " + phrase)
         if self.wolfie is None:
             self.log.error("WolframAlphaSkill not initialized, no response")
@@ -264,24 +273,16 @@ class WolframAlphaSkill(CommonQuerySkill):
         sess = SessionManager.get()
         self.session_results[sess.session_id] = {"phrase": phrase,
                                                  "image": None,
-                                                 "lang": sess.lang,
+                                                 "lang": lang,
                                                  "system_unit": sess.system_unit,
                                                  "spoken_answer": None}
 
-        response = self.ask_the_wolf(phrase, sess.lang, sess.system_unit)
+        response = self.ask_the_wolf(phrase, lang, sess.system_unit)
         if response:
             self.session_results[sess.session_id]["spoken_answer"] = response
             self.log.debug(f"WolframAlpha response: {response}")
-            return (phrase, CQSMatchLevel.EXACT, response,
-                    {'query': phrase, 'answer': response})
+            return response, 0.7
 
-    def CQS_action(self, phrase: str, data: dict):
-        """ If selected show gui """
-        # generate image for the query after skill was selected for speed
-        image = self.wolfie.visual_answer(phrase, lang=self.lang, units=self.system_unit)
-        self.gui["wolfram_image"] = image or f"{self.root_dir}/res/logo.png"
-        # scrollable full result page
-        self.gui.show_page("wolf", override_idle=45)
 
     # wolfram integration
     def ask_the_wolf(self, query: str,
