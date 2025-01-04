@@ -16,7 +16,6 @@ from os.path import join, isfile
 from typing import Optional, Tuple
 
 import requests
-from ovos_backend_client.api import WolframAlphaApi as _WA
 from ovos_bus_client import Message
 from ovos_bus_client.session import SessionManager
 from ovos_config import Configuration
@@ -27,16 +26,74 @@ from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.skills.ovos import OVOSSkill
 
 
-class WolframAlphaApi(_WA):
+class WolframAlphaApi:
+    def __init__(self, key: str):
+        self.key = key or "Y7R353-9HQAAL8KKA"
+
+    @staticmethod
+    def _get_lat_lon(**kwargs):
+        lat = kwargs.get("latitude") or kwargs.get("lat")
+        lon = kwargs.get("longitude") or kwargs.get("lon") or kwargs.get("lng")
+        if not lat or not lon:
+            cfg = Configuration().get("location", {}).get("coordinate", {})
+            lat = cfg.get("latitude")
+            lon = cfg.get("longitude")
+        return lat, lon
+
+    def spoken(self, query, units="metric", lat_lon=None, optional_params=None):
+        optional_params = optional_params or {}
+        if not lat_lon:
+            lat_lon = self._get_lat_lon(**optional_params)
+        params = {'i': query,
+                  "geolocation": "{},{}".format(*lat_lon),
+                  'units': units,
+                  "appid": self.key,
+                  **optional_params}
+        url = 'https://api.wolframalpha.com/v1/spoken'
+        return requests.get(url, params=params).text
+
+    def simple(self, query, units="metric", lat_lon=None, optional_params=None):
+        optional_params = optional_params or {}
+        if not lat_lon:
+            lat_lon = self._get_lat_lon(**optional_params)
+        params = {'i': query,
+                  "geolocation": "{},{}".format(*lat_lon),
+                  'units': units,
+                  "appid": self.key,
+                  **optional_params}
+        url = 'https://api.wolframalpha.com/v1/simple'
+        return requests.get(url, params=params).text
+
+    def full_results(self, query, units="metric", lat_lon=None, optional_params=None):
+        """Wrapper for the WolframAlpha Full Results v2 API.
+        https://products.wolframalpha.com/api/documentation/
+        Pods of interest
+        - Input interpretation - Wolfram's determination of what is being asked about.
+        - Name - primary name of
+        """
+        optional_params = optional_params or {}
+        if not lat_lon:
+            lat_lon = self._get_lat_lon(**optional_params)
+        params = {'input': query,
+                  "units": units,
+                  "mode": "Default",
+                  "format": "image,plaintext",
+                  "geolocation": "{},{}".format(*lat_lon),
+                  "output": "json",
+                  "appid": self.key,
+                  **optional_params}
+        url = 'https://api.wolframalpha.com/v2/query'
+        data = requests.get(url, params=params)
+        return data.json()
+
     def get_image(self, query: str, units: Optional[str] = None):
         """
         query assured to be in self.default_lang
         return path/url to a single image to acompany spoken_answer
         """
-        # TODO - extend backend-client method for picture
         units = units or Configuration().get("system_unit", "metric")
         url = 'http://api.wolframalpha.com/v1/simple'
-        params = {"appid": self.credentials["wolfram"],
+        params = {"appid": self.key,
                   "i": query,
                   # "background": "F5F5F5",
                   "layout": "labelbar",
@@ -59,8 +116,6 @@ class WolframAlphaSolver(QuestionSolver):
         config["lang"] = "en"  # only supports english
         super().__init__(config=config)
         self.api = WolframAlphaApi(key=self.config.get("appid") or "Y7R353-9HQAAL8KKA")
-        # TODO - debug, key doesnt seem to be passed along to base class ???
-        self.api.backend.credentials = self.api.credentials
 
     @staticmethod
     def make_speakable(summary: str):
