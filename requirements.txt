@@ -3,3 +3,5 @@ ovos-config>=0.0.12
 ovos-utils>=0.0.38
 ovos_workshop>=3.3.0,<4.0.0
 ovos-plugin-manager>=0.0.26,<1.0.0
+# TODO - get rid of this import
+ovos-backend-client
