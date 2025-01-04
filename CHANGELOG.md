@@ -1,12 +1,20 @@
 # Changelog
 
-## [0.2.15a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.15a1) (2024-12-05)
+## [0.2.16a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.16a1) (2025-01-04)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.14...0.2.15a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.16a1...0.2.16a1)
 
 **Merged pull requests:**
 
-- fix: typo in catalan \(invalid syntax\) [\#57](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/57) ([JarbasAl](https://github.com/JarbasAl))
+- refactor: new common query decorators [\#60](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/60) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.16a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.16a1) (2024-12-12)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.15...0.2.16a1)
+
+**Merged pull requests:**
+
+- adjusting German translation from joergz2 [\#59](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/59) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
 
 
 
