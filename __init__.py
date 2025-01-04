@@ -13,30 +13,87 @@
 
 import tempfile
 from os.path import join, isfile
-from typing import Optional
+from typing import Optional, Tuple
 
 import requests
-from ovos_backend_client.api import WolframAlphaApi as _WA
 from ovos_bus_client import Message
 from ovos_bus_client.session import SessionManager
 from ovos_config import Configuration
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
-from ovos_workshop.decorators import intent_handler
-from ovos_workshop.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from ovos_workshop.decorators import intent_handler, common_query
+from ovos_workshop.skills.ovos import OVOSSkill
 
 
-class WolframAlphaApi(_WA):
+class WolframAlphaApi:
+    def __init__(self, key: str):
+        self.key = key or "Y7R353-9HQAAL8KKA"
+
+    @staticmethod
+    def _get_lat_lon(**kwargs):
+        lat = kwargs.get("latitude") or kwargs.get("lat")
+        lon = kwargs.get("longitude") or kwargs.get("lon") or kwargs.get("lng")
+        if not lat or not lon:
+            cfg = Configuration().get("location", {}).get("coordinate", {})
+            lat = cfg.get("latitude")
+            lon = cfg.get("longitude")
+        return lat, lon
+
+    def spoken(self, query, units="metric", lat_lon=None, optional_params=None):
+        optional_params = optional_params or {}
+        if not lat_lon:
+            lat_lon = self._get_lat_lon(**optional_params)
+        params = {'i': query,
+                  "geolocation": "{},{}".format(*lat_lon),
+                  'units': units,
+                  "appid": self.key,
+                  **optional_params}
+        url = 'https://api.wolframalpha.com/v1/spoken'
+        return requests.get(url, params=params).text
+
+    def simple(self, query, units="metric", lat_lon=None, optional_params=None):
+        optional_params = optional_params or {}
+        if not lat_lon:
+            lat_lon = self._get_lat_lon(**optional_params)
+        params = {'i': query,
+                  "geolocation": "{},{}".format(*lat_lon),
+                  'units': units,
+                  "appid": self.key,
+                  **optional_params}
+        url = 'https://api.wolframalpha.com/v1/simple'
+        return requests.get(url, params=params).text
+
+    def full_results(self, query, units="metric", lat_lon=None, optional_params=None):
+        """Wrapper for the WolframAlpha Full Results v2 API.
+        https://products.wolframalpha.com/api/documentation/
+        Pods of interest
+        - Input interpretation - Wolfram's determination of what is being asked about.
+        - Name - primary name of
+        """
+        optional_params = optional_params or {}
+        if not lat_lon:
+            lat_lon = self._get_lat_lon(**optional_params)
+        params = {'input': query,
+                  "units": units,
+                  "mode": "Default",
+                  "format": "image,plaintext",
+                  "geolocation": "{},{}".format(*lat_lon),
+                  "output": "json",
+                  "appid": self.key,
+                  **optional_params}
+        url = 'https://api.wolframalpha.com/v2/query'
+        data = requests.get(url, params=params)
+        return data.json()
+
     def get_image(self, query: str, units: Optional[str] = None):
         """
         query assured to be in self.default_lang
         return path/url to a single image to acompany spoken_answer
         """
-        # TODO - extend backend-client method for picture
         units = units or Configuration().get("system_unit", "metric")
         url = 'http://api.wolframalpha.com/v1/simple'
-        params = {"appid": self.credentials["wolfram"],
+        params = {"appid": self.key,
                   "i": query,
                   # "background": "F5F5F5",
                   "layout": "labelbar",
@@ -59,8 +116,6 @@ class WolframAlphaSolver(QuestionSolver):
         config["lang"] = "en"  # only supports english
         super().__init__(config=config)
         self.api = WolframAlphaApi(key=self.config.get("appid") or "Y7R353-9HQAAL8KKA")
-        # TODO - debug, key doesnt seem to be passed along to base class ???
-        self.api.backend.credentials = self.api.credentials
 
     @staticmethod
     def make_speakable(summary: str):
@@ -216,7 +271,7 @@ class WolframAlphaSolver(QuestionSolver):
         return [s for s in steps if s]
 
 
-class WolframAlphaSkill(CommonQuerySkill):
+class WolframAlphaSkill(OVOSSkill):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.session_results = {}  # session_id: {}
@@ -255,7 +310,16 @@ class WolframAlphaSkill(CommonQuerySkill):
             self.speak_dialog("no_answer")
 
     # common query integration
-    def CQS_match_query_phrase(self, phrase: str):
+    def cq_callback(self, utterance: str, answer: str, lang: str):
+        """ If selected show gui """
+        # generate image for the query after skill was selected for speed
+        image = self.wolfie.visual_answer(utterance, lang=lang, units=self.system_unit)
+        self.gui["wolfram_image"] = image or "logo.png"
+        # scrollable full result page
+        self.gui.show_page("wolf", override_idle=45)
+
+    @common_query(callback=cq_callback)
+    def match_common_query(self, phrase: str, lang: str) -> Tuple[str, float]:
         self.log.debug("WolframAlpha query: " + phrase)
         if self.wolfie is None:
             self.log.error("WolframAlphaSkill not initialized, no response")
@@ -264,24 +328,16 @@ class WolframAlphaSkill(CommonQuerySkill):
         sess = SessionManager.get()
         self.session_results[sess.session_id] = {"phrase": phrase,
                                                  "image": None,
-                                                 "lang": sess.lang,
+                                                 "lang": lang,
                                                  "system_unit": sess.system_unit,
                                                  "spoken_answer": None}
 
-        response = self.ask_the_wolf(phrase, sess.lang, sess.system_unit)
+        response = self.ask_the_wolf(phrase, lang, sess.system_unit)
         if response:
             self.session_results[sess.session_id]["spoken_answer"] = response
             self.log.debug(f"WolframAlpha response: {response}")
-            return (phrase, CQSMatchLevel.EXACT, response,
-                    {'query': phrase, 'answer': response})
+            return response, 0.7
 
-    def CQS_action(self, phrase: str, data: dict):
-        """ If selected show gui """
-        # generate image for the query after skill was selected for speed
-        image = self.wolfie.visual_answer(phrase, lang=self.lang, units=self.system_unit)
-        self.gui["wolfram_image"] = image or f"{self.root_dir}/res/logo.png"
-        # scrollable full result page
-        self.gui.show_page("wolf", override_idle=45)
 
     # wolfram integration
     def ask_the_wolf(self, query: str,
