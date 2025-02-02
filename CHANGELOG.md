@@ -1,21 +1,20 @@
 # Changelog
 
-## [0.3.0a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.0a2) (2025-01-04)
+## [0.4.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.4.0a1) (2025-02-02)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.16a1...0.3.0a2)
-
-**Merged pull requests:**
-
-- Update version.py [\#61](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/61) ([JarbasAl](https://github.com/JarbasAl))
-- refactor: new common query decorators [\#60](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/60) ([JarbasAl](https://github.com/JarbasAl))
-
-## [0.2.16a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.16a1) (2024-12-12)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.15...0.2.16a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.1a1...0.4.0a1)
 
 **Merged pull requests:**
 
-- adjusting German translation from joergz2 [\#59](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/59) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+- feat: wolfram alpha persona [\#65](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/65) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.3.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.1a1) (2025-01-25)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.0...0.3.1a1)
+
+**Merged pull requests:**
+
+- fix automations [\#63](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/63) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
