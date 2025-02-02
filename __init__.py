@@ -16,12 +16,15 @@ from os.path import join, isfile
 from typing import Optional, Tuple
 
 import requests
+from ovos_config import Configuration
+
 from ovos_bus_client import Message
 from ovos_bus_client.session import SessionManager
-from ovos_config import Configuration
+from ovos_plugin_manager.templates.language import LanguageTranslator, LanguageDetector
 from ovos_plugin_manager.templates.solvers import QuestionSolver
-from ovos_utils import classproperty
+from ovos_utils.decorators import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils.text_utils import rm_parentheses
 from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.skills.ovos import OVOSSkill
 
@@ -107,14 +110,13 @@ class WolframAlphaApi:
 
 
 class WolframAlphaSolver(QuestionSolver):
-    priority = 25
-    enable_cache = False
-    enable_tx = True
-
-    def __init__(self, config=None):
-        config = config or {}
-        config["lang"] = "en"  # only supports english
-        super().__init__(config=config)
+    def __init__(self, config=None,
+                 translator: Optional[LanguageTranslator] = None,
+                 detector: Optional[LanguageDetector] = None):
+        super().__init__(config=config, priority=25,
+                         internal_lang="en",
+                         enable_tx=True, enable_cache=False,
+                         translator=translator, detector=detector)
         self.api = WolframAlphaApi(key=self.config.get("appid") or "Y7R353-9HQAAL8KKA")
 
     @staticmethod
@@ -169,8 +171,7 @@ class WolframAlphaSolver(QuestionSolver):
         words = [w if w not in units else units[w]
                  for w in summary.split(" ")]
         summary = " ".join(words)
-
-        return summary
+        return rm_parentheses(summary)
 
     # data api
     def get_data(self, query: str,
@@ -277,7 +278,7 @@ class WolframAlphaSkill(OVOSSkill):
         self.session_results = {}  # session_id: {}
         self.wolfie = WolframAlphaSolver({
             "appid": self.settings.get("api_key")
-        })
+        }, translator=self.translator, detector=self.lang_detector)
 
     @classproperty
     def runtime_requirements(self):
@@ -338,7 +339,6 @@ class WolframAlphaSkill(OVOSSkill):
             self.log.debug(f"WolframAlpha response: {response}")
             return response, 0.7
 
-
     # wolfram integration
     def ask_the_wolf(self, query: str,
                      lang: Optional[str] = None,
@@ -362,6 +362,14 @@ class WolframAlphaSkill(OVOSSkill):
         if sess.session_id in self.session_results:
             self.session_results.pop(sess.session_id)
 
+
+WOLFRAMALPHA_PERSONA = {
+  "name": "Wolfram Alpha",
+  "solvers": [
+    "ovos-solver-plugin-wolfram-alpha",
+    "ovos-solver-failure-plugin"
+  ]
+}
 
 if __name__ == "__main__":
     from ovos_utils.fakebus import FakeBus
