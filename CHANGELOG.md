@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.4.0a1) (2025-02-02)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.1a1...0.4.0a1)
+
+**Merged pull requests:**
+
+- feat: wolfram alpha persona [\#65](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/65) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.3.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.1a1) (2025-01-25)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.0...0.3.1a1)
