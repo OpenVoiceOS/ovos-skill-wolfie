@@ -20,7 +20,8 @@ from ovos_bus_client import Message
 from ovos_bus_client.session import SessionManager
 from ovos_config import Configuration
 from ovos_plugin_manager.templates.solvers import QuestionSolver
-from ovos_utils import classproperty
+from ovos_utils.decorators import classproperty
+from ovos_utils.text_utils import rm_parentheses
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.skills.ovos import OVOSSkill
@@ -107,14 +108,10 @@ class WolframAlphaApi:
 
 
 class WolframAlphaSolver(QuestionSolver):
-    priority = 25
-    enable_cache = False
-    enable_tx = True
-
     def __init__(self, config=None):
-        config = config or {}
-        config["lang"] = "en"  # only supports english
-        super().__init__(config=config)
+        super().__init__(config=config, priority=25,
+                         internal_lang="en",
+                         enable_tx=True, enable_cache=False)
         self.api = WolframAlphaApi(key=self.config.get("appid") or "Y7R353-9HQAAL8KKA")
 
     @staticmethod
@@ -169,8 +166,7 @@ class WolframAlphaSolver(QuestionSolver):
         words = [w if w not in units else units[w]
                  for w in summary.split(" ")]
         summary = " ".join(words)
-
-        return summary
+        return rm_parentheses(summary)
 
     # data api
     def get_data(self, query: str,
