@@ -16,13 +16,15 @@ from os.path import join, isfile
 from typing import Optional, Tuple
 
 import requests
+from ovos_config import Configuration
+
 from ovos_bus_client import Message
 from ovos_bus_client.session import SessionManager
-from ovos_config import Configuration
+from ovos_plugin_manager.templates.language import LanguageTranslator, LanguageDetector
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils.decorators import classproperty
-from ovos_utils.text_utils import rm_parentheses
 from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils.text_utils import rm_parentheses
 from ovos_workshop.decorators import intent_handler, common_query
 from ovos_workshop.skills.ovos import OVOSSkill
 
@@ -108,10 +110,13 @@ class WolframAlphaApi:
 
 
 class WolframAlphaSolver(QuestionSolver):
-    def __init__(self, config=None):
+    def __init__(self, config=None,
+                 translator: Optional[LanguageTranslator] = None,
+                 detector: Optional[LanguageDetector] = None):
         super().__init__(config=config, priority=25,
                          internal_lang="en",
-                         enable_tx=True, enable_cache=False)
+                         enable_tx=True, enable_cache=False,
+                         translator=translator, detector=detector)
         self.api = WolframAlphaApi(key=self.config.get("appid") or "Y7R353-9HQAAL8KKA")
 
     @staticmethod
@@ -273,7 +278,7 @@ class WolframAlphaSkill(OVOSSkill):
         self.session_results = {}  # session_id: {}
         self.wolfie = WolframAlphaSolver({
             "appid": self.settings.get("api_key")
-        })
+        }, translator=self.translator, detector=self.lang_detector)
 
     @classproperty
     def runtime_requirements(self):
@@ -333,7 +338,6 @@ class WolframAlphaSkill(OVOSSkill):
             self.session_results[sess.session_id]["spoken_answer"] = response
             self.log.debug(f"WolframAlpha response: {response}")
             return response, 0.7
-
 
     # wolfram integration
     def ask_the_wolf(self, query: str,
