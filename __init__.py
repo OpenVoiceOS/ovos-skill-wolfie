@@ -363,6 +363,14 @@ class WolframAlphaSkill(OVOSSkill):
             self.session_results.pop(sess.session_id)
 
 
+WOLFRAMALPHA_PERSONA = {
+  "name": "Wolfram Alpha",
+  "solvers": [
+    "ovos-solver-plugin-wolfram-alpha",
+    "ovos-solver-failure-plugin"
+  ]
+}
+
 if __name__ == "__main__":
     from ovos_utils.fakebus import FakeBus
 
