@@ -1,6 +1,6 @@
 {
-  "skill_id": "skill-ovos-wolfie.openvoiceos",
-  "source": "https://github.com/OpenVoiceOS/skill-ovos-wolfie",
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
   "name": "Wolfram Alpha",
   "description": "Brug Wolfram Alpha til generelle vidensspørgsmål.",
   "examples": [

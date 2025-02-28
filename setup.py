@@ -3,7 +3,7 @@ from setuptools import setup
 import os
 from os import walk, path
 
-URL = "https://github.com/OpenVoiceOS/skill-ovos-wolfie"
+URL = "https://github.com/OpenVoiceOS/ovos-skill-wolfie"
 SKILL_CLAZZ = "WolframAlphaSkill"  # needs to match __init__.py class name
 PYPI_NAME = "skill-wolfie"  # pip install PYPI_NAME
 

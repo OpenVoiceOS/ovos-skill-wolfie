@@ -1,13 +1,13 @@
 {
     "search_wolfie.intent": [
-        "search wolfram alpha for {query}",
-        "search wolfram for {query}",
+        "ask the wolf {query}",
         "ask the wolfram about {query}",
         "ask the wolfram alpha about {query}",
-        "what does wolfram alpha say about {query}",
-        "what does wolfram say about {query}",
-        "ask the wolf {query}",
         "search the wolf for {query}",
-        "what does the wolf say about {query}"
+        "search wolfram alpha for {query}",
+        "search wolfram for {query}",
+        "what does the wolf say about {query}",
+        "what does wolfram alpha say about {query}",
+        "what does wolfram say about {query}"
     ]
 }
