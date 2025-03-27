@@ -1,20 +1,20 @@
 # Changelog
 
-## [0.4.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.4.0a1) (2025-02-02)
+## [0.5.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.1a1) (2025-03-27)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.1a1...0.4.0a1)
-
-**Merged pull requests:**
-
-- feat: wolfram alpha persona [\#65](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/65) ([JarbasAl](https://github.com/JarbasAl))
-
-## [0.3.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.1a1) (2025-01-25)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.0...0.3.1a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.0a1...0.5.1a1)
 
 **Merged pull requests:**
 
-- fix automations [\#63](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/63) ([JarbasAl](https://github.com/JarbasAl))
+- fix: show GUI if wolfram fallback handler matches [\#69](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/69) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.5.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.0a1) (2025-03-27)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.4.0...0.5.0a1)
+
+**Merged pull requests:**
+
+- feat: fallback handler [\#67](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/67) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
