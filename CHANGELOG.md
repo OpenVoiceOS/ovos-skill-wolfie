@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.1a1) (2025-03-27)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.0a1...0.5.1a1)
+
+**Merged pull requests:**
+
+- fix: show GUI if wolfram fallback handler matches [\#69](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/69) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.5.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.0a1) (2025-03-27)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.4.0...0.5.0a1)
