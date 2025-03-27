@@ -61,7 +61,7 @@ class WolframAlphaSkill(FallbackSkill):
             self.speak_dialog("no_answer")
 
 
-    @fallback_handler(priority=80)
+    @fallback_handler(priority=91)
     def handle_wolfram_fallback(self, message):
         """if this code is reached OVOS is about to give up and
         speak the "i don't understand" dialog, give wolfram alpha a shot at answering.
