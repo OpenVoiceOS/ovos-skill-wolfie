@@ -71,6 +71,9 @@ class WolframAlphaSkill(FallbackSkill):
             answer = self.ask_the_wolf(utterance, self.lang, self.system_unit)
             if answer:
                 self.speak(answer)
+                # trigger the extra GUI info (re-use callback from common_query)
+                self.bus.emit(message.forward(f"question:action.{self.skill_id}",
+                                              {"phrase": utterance, "answer": answer}))
                 return True
         except Exception as e:
             self.log.error(f"Failed to query wolfram alpha: ({e})")
