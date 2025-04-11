@@ -44,7 +44,8 @@ class WolframAlphaSkill(FallbackSkill):
                                    no_gui_fallback=True)
 
     # explicit intents
-    @intent_handler("search_wolfie.intent")
+    @intent_handler("search_wolfie.intent",
+                    voc_blacklist=["Help"])
     def handle_search(self, message: Message):
         query = message.data["query"]
         sess = SessionManager.get(message)
@@ -67,6 +68,8 @@ class WolframAlphaSkill(FallbackSkill):
         speak the "i don't understand" dialog, give wolfram alpha a shot at answering.
         This is what the original early days mycroft-core did before fallback skills were introduced"""
         utterance = message.data["utterance"]
+        if self.voc_match(utterance, "Help"):
+            return False
         try:
             answer = self.ask_the_wolf(utterance, self.lang, self.system_unit)
             if answer:
@@ -93,6 +96,9 @@ class WolframAlphaSkill(FallbackSkill):
         self.log.debug("WolframAlpha query: " + phrase)
         if self.wolfie is None:
             self.log.error("WolframAlphaSkill not initialized, no response")
+            return
+
+        if self.voc_match(phrase, "Help"):
             return
 
         sess = SessionManager.get()
