@@ -1,7 +1,9 @@
 {
-  "Help.voc": [
+  "MiscBlacklist.voc": [
     "install",
-    "skills"
+    "skills",
+    "is it",
+    "can you"
   ],
     "More.voc": [
         "know more",

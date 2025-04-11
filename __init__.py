@@ -98,7 +98,7 @@ class WolframAlphaSkill(FallbackSkill):
             self.log.error("WolframAlphaSkill not initialized, no response")
             return
 
-        if self.voc_match(phrase, "Help"):
+        if self.voc_match(phrase, "MiscBlacklist"):
             return
 
         sess = SessionManager.get()
