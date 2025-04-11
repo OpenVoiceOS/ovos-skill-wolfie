@@ -1,4 +1,10 @@
 {
+  "MiscBlacklist.voc": [
+    "install",
+    "skills",
+    "is it",
+    "can you"
+  ],
     "More.voc": [
         "know more",
         "tell me more",

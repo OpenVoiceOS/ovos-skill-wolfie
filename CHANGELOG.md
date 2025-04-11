@@ -1,12 +1,20 @@
 # Changelog
 
-## [0.5.2a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.2a1) (2025-03-27)
+## [0.5.3a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.3a2) (2025-04-11)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.1...0.5.2a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.3a1...0.5.3a2)
 
 **Merged pull requests:**
 
-- fix: move to fallback\_low stage [\#71](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/71) ([JarbasAl](https://github.com/JarbasAl))
+- Blacklist2 [\#75](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/75) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.5.3a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.3a1) (2025-04-11)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.2...0.5.3a1)
+
+**Merged pull requests:**
+
+- fix: extend keyword blacklist [\#73](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/73) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
