@@ -4,9 +4,9 @@ from os import walk, path
 
 from setuptools import setup
 
-URL = "https://github.com/OpenVoiceOS/skill-ovos-wolfie"
+URL = "https://github.com/OpenVoiceOS/ovos-skill-wolfie"
 SKILL_CLAZZ = "WolframAlphaSkill"  # needs to match __init__.py class name
-PYPI_NAME = "skill-wolfie"  # pip install PYPI_NAME
+PYPI_NAME = "ovos-skill-wolfie"  # pip install PYPI_NAME
 
 # below derived from github url to ensure standard skill_id
 SKILL_AUTHOR, SKILL_NAME = URL.split(".com/")[-1].split("/")
