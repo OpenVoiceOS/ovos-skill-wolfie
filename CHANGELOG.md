@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.7a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.7a1) (2025-06-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.6a1...0.5.7a1)
+
+**Merged pull requests:**
+
+- fix:workshop compat [\#85](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/85) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.5.6a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.6a1) (2025-06-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.5a1...0.5.6a1)
