@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.7a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.7a2) (2025-06-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.7a1...0.5.7a2)
+
+**Merged pull requests:**
+
+- fix:improve global stop handling [\#87](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/87) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.5.7a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.7a1) (2025-06-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.6a1...0.5.7a1)
