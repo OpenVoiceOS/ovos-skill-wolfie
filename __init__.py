@@ -62,11 +62,12 @@ class WolframAlphaSkill(FallbackSkill):
             self.speak_dialog("no_answer")
 
     def can_answer(self, message: Message) -> bool:
+        sess = SessionManager.get(message)
         utterance = message.data["utterances"][0]
         if self.voc_match(utterance, "Help"):
             return False
         try:
-            answer = self.ask_the_wolf(utterance, self.lang, self.system_unit)
+            answer = self.ask_the_wolf(utterance, sess.lang, sess.system_unit)
             return bool(answer)
         except:
             pass
