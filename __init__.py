@@ -14,7 +14,7 @@
 from typing import Optional, Tuple
 
 from ovos_bus_client import Message
-from ovos_bus_client.session import SessionManager
+from ovos_bus_client.session import SessionManager, Session
 from ovos_utils.decorators import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
 from ovos_wolfram_alpha_solver import WolframAlphaSolver
