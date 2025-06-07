@@ -12,7 +12,7 @@
 #
 
 from typing import Optional, Tuple
-
+from functools import lru_cache
 from ovos_bus_client import Message
 from ovos_bus_client.session import SessionManager
 from ovos_utils.decorators import classproperty
@@ -61,6 +61,17 @@ class WolframAlphaSkill(FallbackSkill):
         else:
             self.speak_dialog("no_answer")
 
+    def can_answer(self, message: Message) -> bool:
+        sess = SessionManager.get(message)
+        utterance = message.data["utterances"][0]
+        if self.voc_match(utterance, "Help"):
+            return False
+        try:
+            answer = self.ask_the_wolf(utterance, sess.lang, sess.system_unit)
+            return bool(answer)
+        except:
+            pass
+        return False
 
     @fallback_handler(priority=91)
     def handle_wolfram_fallback(self, message):
@@ -117,6 +128,7 @@ class WolframAlphaSkill(FallbackSkill):
             return response, 0.7
 
     # wolfram integration
+    @lru_cache(maxsize=10)
     def ask_the_wolf(self, query: str,
                      lang: Optional[str] = None,
                      units: Optional[str] = None):
