@@ -12,7 +12,7 @@
 #
 
 from typing import Optional, Tuple
-
+from functools import lru_cache
 from ovos_bus_client import Message
 from ovos_bus_client.session import SessionManager
 from ovos_utils.decorators import classproperty
@@ -61,6 +61,17 @@ class WolframAlphaSkill(FallbackSkill):
         else:
             self.speak_dialog("no_answer")
 
+    def can_answer(self, message: Message) -> bool:
+        sess = SessionManager.get(message)
+        utterance = message.data["utterances"][0]
+        if self.voc_match(utterance, "Help"):
+            return False
+        try:
+            answer = self.ask_the_wolf(utterance, sess.lang, sess.system_unit)
+            return bool(answer)
+        except:
+            pass
+        return False
 
     @fallback_handler(priority=91)
     def handle_wolfram_fallback(self, message):
@@ -85,11 +96,13 @@ class WolframAlphaSkill(FallbackSkill):
     # common query integration
     def cq_callback(self, utterance: str, answer: str, lang: str):
         """ If selected show gui """
-        # generate image for the query after skill was selected for speed
-        image = self.wolfie.visual_answer(utterance, lang=lang, units=self.system_unit)
-        self.gui["wolfram_image"] = image or "logo.png"
-        # scrollable full result page
-        self.gui.show_page("wolf", override_idle=45)
+        sess = SessionManager.get()
+        if sess.session_id == "default":
+            # generate image for the query after skill was selected for speed
+            image = self.wolfie.visual_answer(utterance, lang=lang, units=self.system_unit)
+            self.gui["wolfram_image"] = image or "logo.png"
+            # scrollable full result page
+            self.gui.show_page("wolf", override_idle=45)
 
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Optional[Tuple[str, float]]:
@@ -115,6 +128,7 @@ class WolframAlphaSkill(FallbackSkill):
             return response, 0.7
 
     # wolfram integration
+    @lru_cache(maxsize=10)
     def ask_the_wolf(self, query: str,
                      lang: Optional[str] = None,
                      units: Optional[str] = None):
@@ -133,9 +147,16 @@ class WolframAlphaSkill(FallbackSkill):
             WolframAlphaSolver.enable_tx = True
         return self.wolfie.spoken_answer(query, lang=lang, units=units)
 
-    def stop_session(self, sess):
-        if sess.session_id in self.session_results:
-            self.session_results.pop(sess.session_id)
+    def can_stop(self, message: Message) -> bool:
+        return False
+
+    def stop(self):
+        session = SessionManager.get()
+        # called during global stop only
+        if session.session_id in self.session_results:
+            self.session_results.pop(session.session_id)
+        if session.session_id == "default":
+            self.gui.release()
 
 
 if __name__ == "__main__":

@@ -1,12 +1,36 @@
 # Changelog
 
-## [0.5.4a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.4a1) (2025-05-15)
+## [0.5.7a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.7a2) (2025-06-07)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.3...0.5.4a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.7a1...0.5.7a2)
 
 **Merged pull requests:**
 
-- fix: standardize urls / skill-id / pypi-name [\#78](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/78) ([JarbasAl](https://github.com/JarbasAl))
+- fix:improve global stop handling [\#87](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/87) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.5.7a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.7a1) (2025-06-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.6a1...0.5.7a1)
+
+**Merged pull requests:**
+
+- fix:workshop compat [\#85](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/85) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.5.6a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.6a1) (2025-06-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.5a1...0.5.6a1)
+
+**Merged pull requests:**
+
+- fix: workshop 6.0.0 compat [\#83](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/83) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.5.5a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.5a1) (2025-06-04)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.4...0.5.5a1)
+
+**Merged pull requests:**
+
+- gl/translate [\#80](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/80) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
 
 
 
