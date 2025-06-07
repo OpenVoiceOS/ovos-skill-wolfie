@@ -85,11 +85,13 @@ class WolframAlphaSkill(FallbackSkill):
     # common query integration
     def cq_callback(self, utterance: str, answer: str, lang: str):
         """ If selected show gui """
-        # generate image for the query after skill was selected for speed
-        image = self.wolfie.visual_answer(utterance, lang=lang, units=self.system_unit)
-        self.gui["wolfram_image"] = image or "logo.png"
-        # scrollable full result page
-        self.gui.show_page("wolf", override_idle=45)
+        sess = SessionManager.get()
+        if sess.session_id == "default":
+            # generate image for the query after skill was selected for speed
+            image = self.wolfie.visual_answer(utterance, lang=lang, units=self.system_unit)
+            self.gui["wolfram_image"] = image or "logo.png"
+            # scrollable full result page
+            self.gui.show_page("wolf", override_idle=45)
 
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Optional[Tuple[str, float]]:
@@ -133,9 +135,17 @@ class WolframAlphaSkill(FallbackSkill):
             WolframAlphaSolver.enable_tx = True
         return self.wolfie.spoken_answer(query, lang=lang, units=units)
 
-    def stop_session(self, sess):
-        if sess.session_id in self.session_results:
-            self.session_results.pop(sess.session_id)
+    def can_stop(self, message: Message) -> bool:
+        return False
+
+    def stop_session(self, session: Session) -> bool:
+        # called during global stop only
+        if session.session_id in self.session_results:
+            self.session_results.pop(session.session_id)
+            if session.session_id == "default":
+                self.gui.release()
+            return True
+        return False
 
 
 if __name__ == "__main__":
