@@ -1,4 +1,4 @@
 ovos-config>=0.0.12
 ovos-utils>=0.7.0
-ovos_workshop>=3.4.0a1,<7.0.0
+ovos_workshop>=3.4.0a1,<8.0.0
 ovos-wolfram-alpha-solver>=0.0.2,<1.0.0
