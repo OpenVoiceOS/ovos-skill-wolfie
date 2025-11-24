@@ -1,8 +1,14 @@
 {
-    "More.voc": [
-        "Dime m\u00e1s",
-        "saber m\u00e1s",
-        "Diga m\u00e1s",
-        "continuar"
-    ]
+  "MiscBlacklist.voc": [
+    "instalar",
+    "habilidades",
+    "es eso",
+    "puedes"
+  ],
+  "More.voc": [
+    "(más información|saber más)",
+    "(dime|cuéntame) más",
+    "cuenta más",
+    "continuar"
+  ]
 }
