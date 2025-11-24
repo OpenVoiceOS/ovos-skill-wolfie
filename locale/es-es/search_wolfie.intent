@@ -1,9 +1,9 @@
-Pregúntale al lobo
-Pregúntale al loboram alpha sobre {query}
-Pregúntale al wolfram sobre {query}
-buscar el lobo para {query}
-buscar wolfram alpha para {query}
-buscar wolfram para {query}
-¿Qué dice Wolfram Alpha sobre {query}
-¿Qué dice el lobo acerca de {query}
-¿Qué dice wolfram acerca de {query}
+buscar al lobo para {query}
+buscar en Wolfram Alpha {query}
+buscar en Wolfram {consulta}
+pregunta a Wolfram Alpha sobre {query}
+pregunta a Wolfram sobre {query}
+pregúntale al lobo {query}
+¿qué dice Wolfram Alpha sobre {query}?
+¿qué dice Wolfram sobre {query}?
+¿qué dice el lobo sobre {query}?
