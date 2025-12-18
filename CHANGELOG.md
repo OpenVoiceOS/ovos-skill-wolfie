@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.9a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.9a2) (2025-12-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.9a1...0.5.9a2)
+
+**Merged pull requests:**
+
+- Configure Renovate [\#94](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/94) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.5.9a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.9a1) (2025-11-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.8...0.5.9a1)
