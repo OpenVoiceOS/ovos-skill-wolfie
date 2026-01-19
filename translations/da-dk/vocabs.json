@@ -1,8 +1,14 @@
 {
+  "MiscBlacklist.voc": [
+    "installer",
+    null,
+    null,
+    null
+  ],
   "More.voc": [
     "vide mere",
     "fortæl mig mere",
-    "fortælle mere",
-    "fortsætte"
+    "fortæl mere",
+    "fortsæt"
   ]
 }
