@@ -1,8 +1,8 @@
-Demande au loup
-Que dit le loup sur la laque
-ce que dit le loup-garou sur
-chercher le loup pour {query}
-chercher wolfram alpha pour {query}
-posez-vous au loup-garou alpha sur {query}
-posez-vous la question au loup
-que dit le wolfram alpha sur {query}
+demande au loup {query}
+demande à Wolfram {query}
+demande à Wolfram Alpha {query}
+cherche avec Wolfram {query}
+cherche avec Wolfram Alpha {query}
+que dit le loup sur {query}
+que dit Wolfram sur {query}
+que dit Wolfram Alpha sur {query}
