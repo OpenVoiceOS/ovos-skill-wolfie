@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.9a5](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.9a5) (2026-03-09)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.9a4...0.5.9a5)
+
+**Merged pull requests:**
+
+- Complete French Wolfram locale [\#107](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/107) ([goldyfruit](https://github.com/goldyfruit))
+
 ## [0.5.9a4](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.9a4) (2025-12-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.9a3...0.5.9a4)
