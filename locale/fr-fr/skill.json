@@ -2,9 +2,9 @@
   "skill_id": "ovos-skill-wolfie.openvoiceos",
   "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
   "name": "Wolfram Alpha",
-  "description": "Utilisez Wolfram Alpha pour répondre aux questions de culture générale.",
+  "description": "Posez vos questions à Wolfram Alpha pour les calculs, les conversions et les questions factuelles.",
   "examples": [
-    "Demande au loup quelle est la vitesse de la lumière",
+    "Demande à Wolfram Alpha quelle est la vitesse de la lumière",
     "Quelle est la hauteur du mont Everest ?",
     "Quand Rocky Horror Picture Show est-il sorti ?",
     "Quel est le vrai nom de Madonna ?",
