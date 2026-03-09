@@ -1,5 +1,6 @@
 {
     "no_answer.dialog": [
-        "le loup ne conna\u00eet pas la r\u00e9ponse"
+        "Je n'ai rien trouvé sur Wolfram Alpha.",
+        "Wolfram Alpha n'a pas de réponse pour ça."
     ]
 }
