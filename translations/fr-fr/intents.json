@@ -1,12 +1,9 @@
 {
     "search_wolfie.intent": [
-        "chercher wolfram alpha pour {query}",
-        "Que dit le loup sur la laque",
-        "posez-vous la question au loup",
-        "chercher le loup pour {query}",
-        "ce que dit le loup-garou sur",
-        "que dit le wolfram alpha sur {query}",
-        "posez-vous au loup-garou alpha sur {query}",
-        "Demande au loup"
+        "demande à Wolfram Alpha {query}",
+        "pose la question à Wolfram Alpha {query}",
+        "cherche {query} sur Wolfram Alpha",
+        "cherche avec Wolfram Alpha {query}",
+        "que dit Wolfram Alpha sur {query}"
     ]
 }
