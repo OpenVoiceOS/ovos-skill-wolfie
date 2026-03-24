@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.10a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.10a1) (2026-03-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.9a5...0.5.10a1)
+
+**Merged pull requests:**
+
+- fix: rename bare lang code locale directories [\#108](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/108) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+
 ## [0.5.9a5](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.9a5) (2026-03-09)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.9a4...0.5.9a5)
