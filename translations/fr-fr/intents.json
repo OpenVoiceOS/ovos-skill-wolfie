@@ -1,9 +1,0 @@
-{
-    "search_wolfie.intent": [
-        "demande à Wolfram Alpha {query}",
-        "pose la question à Wolfram Alpha {query}",
-        "cherche {query} sur Wolfram Alpha",
-        "cherche avec Wolfram Alpha {query}",
-        "que dit Wolfram Alpha sur {query}"
-    ]
-}
