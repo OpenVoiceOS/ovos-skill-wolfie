@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.11a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.11a2) (2026-04-04)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.11a1...0.5.11a2)
+
+**Merged pull requests:**
+
+- ci: modernize GitHub workflows [\#112](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/112) ([JarbasAl](https://github.com/JarbasAl))
+- fix\(i18n\): normalize locale folders to canonical BCP-47 [\#111](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/111) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.5.11a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.11a1) (2026-03-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.10a1...0.5.11a1)
