@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.6.0a1) (2026-04-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.11a3...0.6.0a1)
+
+**Merged pull requests:**
+
+- feat: modernize skill — use ovos-wolfram-alpha-plugin, pyproject.toml, new tests [\#116](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/116) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.5.11a3](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.11a3) (2026-04-09)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.11a2...0.5.11a3)
