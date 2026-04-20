@@ -4,7 +4,7 @@
   "name": "Wolfram Alpha",
   "description": "Usa Wolfram Alpha para preguntas de coñecemento xeral.",
   "examples": [
-    "pregúntalle (a wolf|ao lobo) cal é a velocidade da luz",
+    "pregúntalle ao lobo cal é a velocidade da luz",
     "Canto mide o Monte Everest?",
     "Cando se estreou The Rocky Horror Picture Show?",
     "Cal é o nome real de Madonna?",

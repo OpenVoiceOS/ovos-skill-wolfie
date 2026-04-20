@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue)](https://www.python.org/)
 
-Wolfram Alpha skill for [OpenVoiceOS](https://openvoiceos.org). Adds a voice interface on top of [ovos-wolfram-alpha-plugin](https://github.com/OpenVoiceOS/ovos-wolfram-alpha-solver), which handles all Wolfram Alpha queries.
+Wolfram Alpha skill for [OpenVoiceOS](https://openvoiceos.org). Adds a voice interface on top of [ovos-wolfram-alpha-plugin](https://github.com/OpenVoiceOS/ovos-wolfram-alpha-plugin), which handles all Wolfram Alpha queries.
 
 Supports three answer modes:
 
