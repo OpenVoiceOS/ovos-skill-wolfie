@@ -49,7 +49,7 @@ class WolframAlphaSkill(FallbackSkill):
         sess = SessionManager.get(message)
         if sess.session_id == "default":
             self.gui.show_animated_image("wolfie.gif")
-        lang = (message.data.get("lang") or sess.lang or self.lang).split("-")[0]
+        lang = (message.data.get("lang") or sess.lang).split("-")[0]
         try:
             answer = self.wolfie.get_spoken_answer(query, lang=lang)
         except Exception as e:
@@ -66,7 +66,8 @@ class WolframAlphaSkill(FallbackSkill):
         utterance = message.data["utterance"]
         if self.voc_match(utterance, "Help"):
             return False
-        lang = (message.data.get("lang") or self.lang).split("-")[0]
+        sess = SessionManager.get(message)
+        lang = (message.data.get("lang") or sess.lang).split("-")[0]
         try:
             answer = self.wolfie.get_spoken_answer(utterance, lang=lang)
             if answer:
