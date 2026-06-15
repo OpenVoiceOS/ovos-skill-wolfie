@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos-skill-wolfie"
+dynamic = ["version"]
+description = "ovos wolfram alpha skill plugin"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "JarbasAi", email = "jarbasai@mailfence.com"}
+]
+keywords = ["ovos", "skill", "plugin"]
+dependencies = [
+    "ovos-config>=0.0.12",
+    "ovos-utils>=0.7.0",
+    "ovos_workshop>=8.0.0,<8.1.0",
+    "ovos-wolfram-alpha-solver>=0.0.2,<1.0.0"
+]
+
+[project.optional-dependencies]
+test = [
+    "ovoscope>=0.13.1,<1.0.0",
+    "pytest>=7.0.0,<9",
+    "pytest-timeout>=2.0.0",
+    "padacioso>=1.0.2a3"
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-skill-wolfie"
+
+[project.entry-points."ovos.plugin.skill"]
+"ovos-skill-wolfie.openvoiceos" = "ovos_skill_wolfie:WolframAlphaSkill"
+
+[tool.setuptools.dynamic]
+version = {attr = "ovos_skill_wolfie.version.__version__"}
+
+[tool.setuptools]
+packages = ["ovos_skill_wolfie"]
+
+[tool.setuptools.package-dir]
+ovos_skill_wolfie = "."
+
+[tool.setuptools.package-data]
+ovos_skill_wolfie = [
+    "*.json",
+    "locale/**/*",
+    "gui/**/*",
+    "res/**/*",
+]

@@ -26,15 +26,11 @@ class _IntentRoutingMixin:
             cls.minicroft.stop()
 
 
-    def _assert_padatious(self, utterance: str, intent_file: str):
+    def _assert_padacioso(self, utterance: str, intent_file: str):
         intent_msg_type = f"{SKILL_ID}:{intent_file}"
         session = Session(f"e2e-en_us-{intent_file}-{hash(utterance)}")
         session.lang = LANG
-        session.pipeline = [
-            "ovos-padatious-pipeline-plugin-high",
-            "ovos-padatious-pipeline-plugin-medium",
-            "ovos-padatious-pipeline-plugin-low",
-        ]
+        session.pipeline = ["ovos-padacioso-pipeline-plugin-medium"]
         message = Message(
             "recognizer_loop:utterance",
             {"utterances": [utterance], "lang": LANG},
@@ -48,8 +44,6 @@ class _IntentRoutingMixin:
             source_message=message,
             activation_points=[intent_msg_type],
             test_msg_context=False,
-            test_message_number=False,
-            ignore_messages=["speak", "mycroft.audio.play_sound"],
             expected_messages=[
                 message,
                 Message(f"{SKILL_ID}.activate", {}, {"skill_id": SKILL_ID}),
@@ -62,19 +56,19 @@ class _IntentRoutingMixin:
         test.execute(timeout=30)
 
 
-class TestPadatious1_Search_wolfie_intent(_IntentRoutingMixin, TestCase):
-    """Padatious intent: search_wolfie.intent"""
+class TestPadacioso1_Search_wolfie_intent(_IntentRoutingMixin, TestCase):
+    """Padacioso intent: search_wolfie.intent"""
     def test_ask_the_wolf_something(self):
-        self._assert_padatious(r"ask the wolf something", r"search_wolfie.intent")
+        self._assert_padacioso(r"ask the wolf something", r"search_wolfie.intent")
 
     def test_ask_the_wolfram_about_something(self):
-        self._assert_padatious(r"ask the wolfram about something", r"search_wolfie.intent")
+        self._assert_padacioso(r"ask the wolfram about something", r"search_wolfie.intent")
 
     def test_ask_the_wolfram_alpha_about_something(self):
-        self._assert_padatious(r"ask the wolfram alpha about something", r"search_wolfie.intent")
+        self._assert_padacioso(r"ask the wolfram alpha about something", r"search_wolfie.intent")
 
     def test_search_the_wolf_for_something(self):
-        self._assert_padatious(r"search the wolf for something", r"search_wolfie.intent")
+        self._assert_padacioso(r"search the wolf for something", r"search_wolfie.intent")
 
     def test_search_wolfram_alpha_for_something(self):
-        self._assert_padatious(r"search wolfram alpha for something", r"search_wolfie.intent")
+        self._assert_padacioso(r"search wolfram alpha for something", r"search_wolfie.intent")
