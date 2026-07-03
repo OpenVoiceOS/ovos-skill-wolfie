@@ -1,9 +1,8 @@
-ask the wolf {query}
-ask the wolfram about {query}
-ask the wolfram alpha about {query}
-search the wolf for {query}
-search wolfram alpha for {query}
-search wolfram for {query}
-what does the wolf say about {query}
-what does wolfram alpha say about {query}
-what does wolfram say about {query}
+ask <wolfram> [about] {query}
+tell <wolfram> [about] {query}
+query <wolfram> [about|for] {query}
+search <wolfram> for {query}
+search [for] {query} (on|with|using|in) <wolfram>
+look up {query} (on|with|using|in) <wolfram>
+what does <wolfram> say about {query}
+according to <wolfram> {query}

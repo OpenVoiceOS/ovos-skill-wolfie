@@ -212,5 +212,48 @@ class TestCqCallback(unittest.TestCase):
         self.skill.gui.show_page.assert_not_called()
 
 
+# ---------------------------------------------------------------------------
+# Locale resources — en-US intent definitions
+# ---------------------------------------------------------------------------
+
+class TestEnUsLocaleResources(unittest.TestCase):
+    """Guard the shape of the packaged en-US resources the skill relies on."""
+
+    def _locale(self, name):
+        import os
+        import ovos_skill_wolfie
+        path = os.path.join(os.path.dirname(ovos_skill_wolfie.__file__),
+                            "locale", "en-US", name)
+        with open(path) as f:
+            return [ln.strip() for ln in f
+                    if ln.strip() and not ln.strip().startswith("#")]
+
+    def test_help_voc_present(self):
+        # handle_wolfram_fallback voc_matches "Help"; the file must ship so
+        # meta requests are not forwarded to Wolfram Alpha
+        self.assertIn("install", self._locale("Help.voc"))
+
+    def test_intent_uses_wolfram_voc(self):
+        # every explicit template names the backend via the <wolfram> voc,
+        # so none acts as a bare open-{query} catcher
+        lines = self._locale("search_wolfie.intent")
+        self.assertTrue(lines)
+        for line in lines:
+            self.assertIn("{query}", line)
+            self.assertIn("<wolfram>", line)
+
+    def test_wolfram_voc_names(self):
+        names = self._locale("wolfram.voc")
+        self.assertIn("wolfram", names)
+        self.assertIn("the wolf", names)
+
+    def test_query_blacklist_excludes_pronouns(self):
+        # anaphoric pronouns must not fill {query} (INTENT-2 §4.3 slot-value
+        # exclusion) so CONTEXT-1 §7 can resolve the referent
+        excluded = self._locale("query.blacklist")
+        for pronoun in ("it", "he", "she", "they", "this", "that"):
+            self.assertIn(pronoun, excluded)
+
+
 if __name__ == "__main__":
     unittest.main()
