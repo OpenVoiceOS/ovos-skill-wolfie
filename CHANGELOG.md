@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.0a1) (2026-07-03)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.6.0a1...0.7.0a1)
+
+**Merged pull requests:**
+
+- feat: improve en-US intent definitions [\#119](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/119) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.6.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.6.0a1) (2026-04-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.11a3...0.6.0a1)
