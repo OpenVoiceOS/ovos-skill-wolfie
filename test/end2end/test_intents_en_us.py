@@ -51,16 +51,13 @@ class TestWolfieIntents(TestCase):
         self.assertEqual(everest["name"], INTENT)
         self.assertEqual(everest["entities"]["query"], "how tall is everest")
 
-        # handle_search is registered with voc_blacklist=["MiscBlacklist"]; a
-        # MiscBlacklist utterance is flagged so the query is never forwarded to
-        # Wolfram Alpha, even though the intent samples would otherwise match it.
+        # search_wolfie.blacklist suppresses handle_search: a blacklisted
+        # utterance is flagged so the query is never forwarded to Wolfram Alpha,
+        # even though the intent samples would otherwise match it.
+        blacklist = self.skill._intent_blacklist(LANG)
         blacklisted = "ask wolfram can you install skills"
         self.assertEqual(self.container.calc_intent(blacklisted)["name"], INTENT)
-        self.assertTrue(
-            self.skill.voc_match(blacklisted, "MiscBlacklist", lang=LANG)
-        )
+        self.assertTrue(any(term in blacklisted for term in blacklist))
         self.assertFalse(
-            self.skill.voc_match(
-                "what is the speed of light", "MiscBlacklist", lang=LANG
-            )
+            any(term in "what is the speed of light" for term in blacklist)
         )

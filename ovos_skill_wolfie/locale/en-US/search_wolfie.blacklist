@@ -1,0 +1,8 @@
+# Intent suppression for search_wolfie.intent (OVOS-INTENT-2 §4.3): an
+# utterance carrying any of these phrases is a device/assistant request that
+# another skill owns, so it must never be forwarded to Wolfram Alpha even
+# when it also addresses the "wolfram" backend.
+can you
+install
+is it
+skills

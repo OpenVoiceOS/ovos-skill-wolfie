@@ -99,6 +99,24 @@ class TestHandleSearch(unittest.TestCase):
             self.skill.handle_search(self._msg("velocidade da luz"))
         self.skill.wolfie.get_spoken_answer.assert_called_once_with("velocidade da luz", lang="pt")
 
+    def test_blacklisted_utterance_suppresses_lookup(self):
+        self.skill._intent_blacklist = MagicMock(return_value={"install"})
+        msg = Message("ovos.skills.test",
+                      data={"query": "skills", "utterance": "ask wolfram can you install skills"})
+        with patch("ovos_skill_wolfie.SessionManager") as sm:
+            sm.get.return_value.session_id = "default"
+            sm.get.return_value.lang = "en-US"
+            self.skill.handle_search(msg)
+        self.skill.wolfie.get_spoken_answer.assert_not_called()
+        self.skill.speak.assert_not_called()
+
+    def test_intent_blacklist_reads_resource(self):
+        self.skill.find_resource = MagicMock(return_value="search_wolfie.blacklist")
+        with patch("builtins.open",
+                   unittest.mock.mock_open(read_data="# comment\ncan you\ninstall\n")):
+            terms = self.skill._intent_blacklist("en-US")
+        self.assertEqual(terms, {"can you", "install"})
+
 
 # ---------------------------------------------------------------------------
 # handle_wolfram_fallback
@@ -165,7 +183,7 @@ class TestMatchCommonQuery(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_returns_none_for_blacklisted_phrase(self):
-        self.skill.voc_match.return_value = True
+        self.skill._intent_blacklist = MagicMock(return_value={"install"})
         result = self.skill.match_common_query("how do I install this", "en-US")
         self.assertIsNone(result)
         self.skill.wolfie.get_spoken_answer.assert_not_called()
