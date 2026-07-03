@@ -18,6 +18,12 @@ dependencies = [
     "ovos-wolfram-alpha-plugin>=1.0.0a1,<2.0.0"
 ]
 
+[project.optional-dependencies]
+test = [
+    "ovoscope>=1.5.0a1",
+    "padacioso>=1.1.1a1"
+]
+
 [project.urls]
 Homepage = "https://github.com/OpenVoiceOS/ovos-skill-wolfie"
 
