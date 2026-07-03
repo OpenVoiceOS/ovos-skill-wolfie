@@ -233,14 +233,14 @@ class TestEnUsLocaleResources(unittest.TestCase):
         # meta requests are not forwarded to Wolfram Alpha
         self.assertIn("install", self._locale("Help.voc"))
 
-    def test_intent_uses_wolfram_voc(self):
-        # every explicit template names the backend via the <wolfram> voc,
+    def test_intent_names_backend(self):
+        # every explicit template names the backend in a (wolfram|...) group,
         # so none acts as a bare open-{query} catcher
         lines = self._locale("search_wolfie.intent")
         self.assertTrue(lines)
         for line in lines:
             self.assertIn("{query}", line)
-            self.assertIn("<wolfram>", line)
+            self.assertIn("wolfram", line)
 
     def test_wolfram_voc_names(self):
         names = self._locale("wolfram.voc")
