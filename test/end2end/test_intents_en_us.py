@@ -5,6 +5,10 @@ resource loading and intent registration path used at runtime. Utterance
 matching is checked against the trained Padacioso container the skill registers
 its ``search_wolfie.intent`` samples into, which yields the intent name and the
 extracted ``{query}`` slot deterministically.
+
+The whole scenario lives in a single test so exactly one MiniCroft is booted:
+concurrent MiniCroft instances share the on-disk GUI resource cache and would
+race while syncing it.
 """
 from unittest import TestCase
 
@@ -31,34 +35,27 @@ class TestWolfieIntents(TestCase):
         if cls.minicroft:
             cls.minicroft.stop()
 
-    def test_skill_loaded(self):
+    def test_en_us_wolfram_intents(self):
         self.assertIn(SKILL_ID, self.minicroft.plugin_skills)
-
-    def test_intent_registered(self):
         self.assertIn(INTENT, self.container.intent_samples)
 
-    def test_ask_wolfram_routes_to_search(self):
-        match = self.container.calc_intent(
+        speed = self.container.calc_intent(
             "ask wolfram what is the speed of light"
         )
-        self.assertEqual(match["name"], INTENT)
-        self.assertEqual(match["entities"]["query"], "what is the speed of light")
+        self.assertEqual(speed["name"], INTENT)
+        self.assertEqual(speed["entities"]["query"], "what is the speed of light")
 
-    def test_according_to_wolfram_routes_to_search(self):
-        match = self.container.calc_intent(
+        everest = self.container.calc_intent(
             "according to wolfram how tall is everest"
         )
-        self.assertEqual(match["name"], INTENT)
-        self.assertEqual(match["entities"]["query"], "how tall is everest")
+        self.assertEqual(everest["name"], INTENT)
+        self.assertEqual(everest["entities"]["query"], "how tall is everest")
 
-    def test_blacklisted_utterance_is_gated(self):
-        # ``handle_search`` is registered with voc_blacklist=["MiscBlacklist"];
-        # a MiscBlacklist utterance is flagged so the query is never forwarded to
+        # handle_search is registered with voc_blacklist=["MiscBlacklist"]; a
+        # MiscBlacklist utterance is flagged so the query is never forwarded to
         # Wolfram Alpha, even though the intent samples would otherwise match it.
         blacklisted = "ask wolfram can you install skills"
-        self.assertEqual(
-            self.container.calc_intent(blacklisted)["name"], INTENT
-        )
+        self.assertEqual(self.container.calc_intent(blacklisted)["name"], INTENT)
         self.assertTrue(
             self.skill.voc_match(blacklisted, "MiscBlacklist", lang=LANG)
         )
