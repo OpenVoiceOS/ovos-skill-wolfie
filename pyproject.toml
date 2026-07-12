@@ -14,7 +14,7 @@ authors = [
 keywords = ["ovos", "skill", "plugin", "wolfram"]
 dependencies = [
     "ovos-utils>=0.7.0,<1.0.0",
-    "ovos-workshop>=8.0.0,<9.0.0",
+    "ovos-workshop>=8.0.0,<10.0.0",
     "ovos-wolfram-alpha-plugin>=1.0.0a1,<2.0.0"
 ]
 
