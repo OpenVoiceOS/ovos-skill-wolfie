@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.1a3](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.1a3) (2026-08-01)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.1a2...0.7.1a3)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#127](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/127) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.7.1a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.1a2) (2026-07-12)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.1a1...0.7.1a2)
