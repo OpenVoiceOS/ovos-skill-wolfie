@@ -4,13 +4,13 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue)](https://www.python.org/)
 
-Wolfram Alpha skill for [OpenVoiceOS](https://openvoiceos.org). Adds a voice interface on top of [ovos-wolfram-alpha-plugin](https://github.com/OpenVoiceOS/ovos-wolfram-alpha-plugin), which handles all Wolfram Alpha queries.
+This is a Wolfram Alpha skill for [OpenVoiceOS](https://openvoiceos.org). It adds a voice interface on top of [OpenVoiceOS/ovos-wolfram-alpha-plugin](https://github.com/OpenVoiceOS/ovos-wolfram-alpha-plugin), which sends the queries to Wolfram Alpha and returns the answers.
 
-Supports three answer modes:
+The skill answers in three ways:
 
-- **Explicit intent** — handles utterances that target Wolfram Alpha directly (e.g. "ask the wolf what is the speed of light"). These always go to this skill.
-- **Common Query** — handles general knowledge questions (e.g. "how tall is Mount Everest?") via the [OVOS Common Query pipeline](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin). The pipeline asks all registered knowledge skills and picks the best answer.
-- **Fallback** — if no other skill or pipeline handler answers, Wolfram Alpha gets a last shot before the "I don't understand" response.
+- **Explicit intent**: this skill handles utterances that name Wolfram Alpha directly, for example "ask the wolf what is the speed of light".
+- **Common Query**: the [OVOS Common Query pipeline](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin) handles general knowledge questions, for example "how tall is Mount Everest?". The pipeline asks all registered knowledge skills and picks the highest-confidence answer.
+- **Fallback**: if no intent or pipeline handler answers, Wolfram Alpha gets a last chance to respond before OVOS says "I don't understand".
 
 ---
 
@@ -41,7 +41,7 @@ These always route to this skill because they name Wolfram or "the wolf" explici
 
 ## Common Query utterances
 
-These go through the pipeline — Wolfram answers if it wins:
+These go through the pipeline. Wolfram answers if it wins:
 
 - "How tall is Mount Everest?"
 - "What's 18 times 4?"
@@ -53,16 +53,23 @@ These go through the pipeline — Wolfram answers if it wins:
 
 ## Common Query pipeline
 
-When the [Common Query pipeline plugin](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin) is active, this skill competes against other knowledge skills (e.g. Wikipedia, WordNet) to answer general questions. The pipeline selects the response with the highest confidence score.
+When the [Common Query pipeline plugin](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin) is active, this skill competes against other knowledge skills, for example Wikipedia and WordNet, to answer general questions. The pipeline picks the response with the highest confidence score.
 
 ---
 
 ## Fallback
 
-This skill also registers as a fallback handler at priority 91. If no intent or pipeline handler answers an utterance, Wolfram Alpha gets a last chance to respond before OVOS speaks "I don't know".
+This skill also registers as a fallback handler at priority 91. If no intent or pipeline handler answers an utterance, Wolfram Alpha gets a last chance to respond before OVOS says "I don't know".
+
+---
+
+## Related projects
+
+- [OpenVoiceOS/ovos-wolfram-alpha-plugin](https://github.com/OpenVoiceOS/ovos-wolfram-alpha-plugin): sends the queries to Wolfram Alpha and parses the answers. This skill depends on it.
+- [OpenVoiceOS/ovos-common-query-pipeline-plugin](https://github.com/OpenVoiceOS/ovos-common-query-pipeline-plugin): the Common Query pipeline that ranks answers from this skill against other knowledge skills.
 
 ---
 
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE).
+Apache 2.0. See [LICENSE](LICENSE).
