@@ -255,5 +255,106 @@ class TestEnUsLocaleResources(unittest.TestCase):
             self.assertIn(pronoun, excluded)
 
 
+class TestCanAnswer(unittest.TestCase):
+    """FallbackSkill declares can_answer abstract, and the base class raises
+    NotImplementedError. The skills service pings every fallback skill and
+    routes only to those that pong, so a missing can_answer takes this skill
+    out of the fallback pipeline entirely, silently."""
+
+    def setUp(self):
+        self.skill = _make_skill()
+
+    def _ping(self, utterance):
+        return Message("ovos.skills.fallback.ping",
+                       data={"utterances": [utterance]})
+
+    def test_answers_a_question_wolfram_knows(self):
+        self.skill.wolfie.get_spoken_answer.return_value = "8848 meters"
+        self.assertTrue(self.skill.can_answer(self._ping("how tall is everest")))
+
+    def test_declines_a_question_wolfram_cannot_answer(self):
+        self.skill.wolfie.get_spoken_answer.return_value = None
+        self.assertFalse(self.skill.can_answer(self._ping("mrrp glorp")))
+
+    def test_declines_a_help_request_without_asking_wolfram(self):
+        self.assertFalse(self.skill.can_answer(self._ping("help")))
+        self.skill.wolfie.get_spoken_answer.assert_not_called()
+
+    def test_declines_when_the_query_raises(self):
+        self.skill.wolfie.get_spoken_answer.side_effect = RuntimeError("boom")
+        self.assertFalse(self.skill.can_answer(self._ping("how tall is everest")))
+
+    def test_ping_emits_a_pong(self):
+        self.skill.wolfie.get_spoken_answer.return_value = "8848 meters"
+        replies = []
+        self.skill.bus.on("ovos.skills.fallback.pong",
+                          lambda m: replies.append(m))
+        self.skill.bus.emit(self._ping("how tall is everest"))
+        self.assertEqual(len(replies), 1)
+        self.assertTrue(replies[0].data["can_handle"])
+        self.assertEqual(replies[0].data["skill_id"], "test.wolfie")
+
+
+class TestAnswerCache(unittest.TestCase):
+    """A single question reaches the skill through the ping, the fallback
+    handler and common query. Each of those used to be its own API request."""
+
+    def setUp(self):
+        self.skill = _make_skill()
+        self.skill.speak = MagicMock()
+        self.skill.gui = MagicMock()
+        self.skill.wolfie.get_spoken_answer.return_value = "8848 meters"
+
+    def test_ping_then_fallback_costs_one_request(self):
+        ping = Message("ovos.skills.fallback.ping",
+                       data={"utterances": ["how tall is everest"]})
+        self.assertTrue(self.skill.can_answer(ping))
+        handled = self.skill.handle_wolfram_fallback(
+            Message("fallback", data={"utterance": "how tall is everest"}))
+        self.assertTrue(handled)
+        self.skill.speak.assert_called_once_with("8848 meters")
+        self.skill.wolfie.get_spoken_answer.assert_called_once()
+
+    def test_the_fallback_answer_is_spoken_once(self):
+        # workshop speaks the answer itself when it handles
+        # question:action.<skill_id>, so emitting that from the fallback
+        # handler made the user hear the same answer twice
+        self.skill.handle_wolfram_fallback(
+            Message("fallback", data={"utterance": "how tall is everest"}))
+        self.assertEqual(self.skill.speak.call_count, 1)
+
+    def test_cache_ignores_case_and_padding(self):
+        self.skill._get_answer("How Tall Is Everest", "en")
+        self.skill._get_answer("  how tall is everest  ", "en")
+        self.skill.wolfie.get_spoken_answer.assert_called_once()
+
+    def test_a_different_language_is_a_different_entry(self):
+        self.skill._get_answer("how tall is everest", "en")
+        self.skill._get_answer("how tall is everest", "pt")
+        self.assertEqual(self.skill.wolfie.get_spoken_answer.call_count, 2)
+
+    def test_a_failed_query_is_not_cached(self):
+        self.skill.wolfie.get_spoken_answer.side_effect = RuntimeError("boom")
+        self.assertIsNone(self.skill._get_answer("how tall is everest", "en"))
+        self.skill.wolfie.get_spoken_answer.side_effect = None
+        self.assertEqual(self.skill._get_answer("how tall is everest", "en"),
+                         "8848 meters")
+
+    def test_a_stale_entry_is_re_queried(self):
+        # advance the clock rather than writing cache_ttl into settings, which
+        # is a real file on disk and would leak into every later test run
+        clock = iter([0, 9999, 9999])
+        with patch("ovos_skill_wolfie.time.monotonic", lambda: next(clock)):
+            self.skill._get_answer("how tall is everest", "en")
+            self.skill._get_answer("how tall is everest", "en")
+        self.assertEqual(self.skill.wolfie.get_spoken_answer.call_count, 2)
+
+    def test_the_cache_is_bounded(self):
+        from ovos_skill_wolfie import CACHE_SIZE
+        for i in range(CACHE_SIZE + 10):
+            self.skill._get_answer(f"question {i}", "en")
+        self.assertEqual(len(self.skill._cache), CACHE_SIZE)
+
+
 if __name__ == "__main__":
     unittest.main()
