@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.2a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.2a1) (2026-08-11)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.1a3...0.7.2a1)
+
+**Merged pull requests:**
+
+- fix: implement can\_answer, cache answers, stop speaking twice [\#129](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/129) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.7.1a3](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.1a3) (2026-08-01)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.1a2...0.7.1a3)
