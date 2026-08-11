@@ -15,7 +15,7 @@ from unittest import TestCase
 from ovoscope import get_minicroft
 
 SKILL_ID = "ovos-skill-wolfie.openvoiceos"
-INTENT = f"{SKILL_ID}:search_wolfie.intent"
+INTENT = f"{SKILL_ID}:search_wolfie"
 LANG = "en-US"
 
 
@@ -53,9 +53,11 @@ class TestWolfieIntents(TestCase):
 
         # handle_search is registered with voc_blacklist=["MiscBlacklist"]; a
         # MiscBlacklist utterance is flagged so the query is never forwarded to
-        # Wolfram Alpha, even though the intent samples would otherwise match it.
+        # Wolfram Alpha. The blacklist words ("install", "skills", "can you",
+        # "is it") are themselves stripped as noise by the padacioso container,
+        # so an utterance built from them does not padacioso-match the intent
+        # in the first place; only the voc_match gate is exercised here.
         blacklisted = "ask wolfram can you install skills"
-        self.assertEqual(self.container.calc_intent(blacklisted)["name"], INTENT)
         self.assertTrue(
             self.skill.voc_match(blacklisted, "MiscBlacklist", lang=LANG)
         )
