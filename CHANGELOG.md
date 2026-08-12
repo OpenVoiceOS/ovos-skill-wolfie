@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.2a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.2a2) (2026-08-12)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.2a1...0.7.2a2)
+
+**Merged pull requests:**
+
+- test: add golden-utterance e2e suite [\#131](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/131) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.7.2a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.2a1) (2026-08-11)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.1a3...0.7.2a1)
