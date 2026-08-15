@@ -202,3 +202,25 @@ def test_trio_arbitration_not_claimed_by_wolfie(minicroft, case):
     assert not claimed, (
         f"{text!r} (expected to belong to {expected_claimant}) was incorrectly claimed by {SKILL_ID}"
     )
+
+
+@pytest.mark.timeout(60)
+def test_blacklisted_phrase_reaches_no_wolfie_handler(minicroft):
+    # search_wolfie.blacklist (sibling of search_wolfie.intent) lists this
+    # phrase; the bus round trip must never reach a wolfie handler for it.
+    text = "ask wolfram can you install skills"
+    types = _types(minicroft, text, f"blacklist-{text}")
+    claimed = any(t.startswith(f"{SKILL_ID}:") for t in types)
+    assert not claimed, f"{text!r} matches search_wolfie.blacklist but was claimed by {SKILL_ID}"
+
+
+@pytest.mark.timeout(60)
+def test_installment_not_over_suppressed(minicroft):
+    # word-boundary semantics: "installment" must not collide with the
+    # blacklisted whole word "install" (the bug in the old substring-based
+    # voc_blacklist mechanism).
+    text = "ask wolfram what is an installment loan"
+    types = _types(minicroft, text, f"blacklist-boundary-{text}")
+    assert any(_matches_intent(t, SKILL_ID, "search_wolfie") for t in types), (
+        f"{text!r} should still match search_wolfie.intent, got {types!r}"
+    )
