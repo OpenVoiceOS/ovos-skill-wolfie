@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.3a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.3a1) (2026-08-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.2a2...0.7.3a1)
+
+**Merged pull requests:**
+
+- fix: move Wolfram intent suppression to native \<intent\>.blacklist locale files [\#133](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/133) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.7.2a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.2a2) (2026-08-12)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.2a1...0.7.2a2)
