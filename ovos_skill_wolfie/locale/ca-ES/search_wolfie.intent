@@ -1,0 +1,9 @@
+(cerca|busca) a wolfram (sobre|) {query}
+(cerca|busca) a wolfram alfa (sobre|) {query}
+(cerca|busca) al llop (sobre|) {query}
+(demana|pregunta) a wolfram  (sobre|) {query}
+(demana|pregunta) a wolfram alfa (sobre|) {query}
+(demana|pregunta) al llop (sobre|) {query}
+què (diu|explica) (el|es) llop (sobre|de) {query}
+què (diu|explica) wolfram  (sobre|de) {query}
+què (diu|explica) wolfram alfa (sobre|de) {query}

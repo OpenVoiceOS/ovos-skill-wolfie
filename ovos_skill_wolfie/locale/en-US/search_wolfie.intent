@@ -1,0 +1,8 @@
+ask (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie) [about] {query}
+tell (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie) [about] {query}
+query (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie) [about|for] {query}
+search (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie) for {query}
+search [for] {query} (on|with|using|in) (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie)
+look up {query} (on|with|using|in) (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie)
+what does (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie) say about {query}
+according to (wolfram|the wolfram|wolfram alpha|the wolfram alpha|the wolf|wolfie) {query}
