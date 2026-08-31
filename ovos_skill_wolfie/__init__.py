@@ -49,7 +49,7 @@ class WolframAlphaSkill(FallbackSkill):
         )
 
     # explicit wolfram intent
-    @intent_handler("search_wolfie.intent", voc_blacklist=["MiscBlacklist"])
+    @intent_handler("search_wolfie.intent")
     def handle_search(self, message: Message):
         query = message.data["query"]
         sess = SessionManager.get(message)

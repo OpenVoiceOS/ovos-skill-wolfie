@@ -51,18 +51,19 @@ class TestWolfieIntents(TestCase):
         self.assertEqual(everest["name"], INTENT)
         self.assertEqual(everest["entities"]["query"], "how tall is everest")
 
-        # handle_search is registered with voc_blacklist=["MiscBlacklist"]; a
-        # MiscBlacklist utterance is flagged so the query is never forwarded to
-        # Wolfram Alpha. The blacklist words ("install", "skills", "can you",
-        # "is it") are themselves stripped as noise by the padacioso container,
-        # so an utterance built from them does not padacioso-match the intent
-        # in the first place; only the voc_match gate is exercised here.
+        # search_wolfie.intent ships a sibling locale/en-US/search_wolfie.blacklist
+        # (loaded natively by ovos-workshop's register_intent_file, no
+        # voc_blacklist wiring needed). A blacklisted phrase excludes the
+        # intent from padacioso matching entirely, so calc_intent returns no
+        # match for it, while an unrelated query keeps matching.
         blacklisted = "ask wolfram can you install skills"
-        self.assertTrue(
-            self.skill.voc_match(blacklisted, "MiscBlacklist", lang=LANG)
+        self.assertIsNone(self.container.calc_intent(blacklisted)["name"])
+
+        # "installment" must not collide with the "install" blacklist entry:
+        # padacioso's exclude_keywords uses \b-bounded matching, so a single
+        # blacklisted word only excludes on a whole-word hit.
+        installment = self.container.calc_intent(
+            "ask wolfram what is an installment loan"
         )
-        self.assertFalse(
-            self.skill.voc_match(
-                "what is the speed of light", "MiscBlacklist", lang=LANG
-            )
-        )
+        self.assertEqual(installment["name"], INTENT)
+        self.assertEqual(installment["entities"]["query"], "what is an installment loan")
