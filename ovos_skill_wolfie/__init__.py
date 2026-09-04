@@ -131,7 +131,7 @@ class WolframAlphaSkill(FallbackSkill):
 
     @common_query(callback=cq_callback)
     def match_common_query(self, phrase: str, lang: str) -> Optional[Tuple[str, float]]:
-        if self.voc_match(phrase, "MiscBlacklist"):
+        if self.voc_match(phrase, "ignore_query"):
             return None
 
         sess = SessionManager.get()
