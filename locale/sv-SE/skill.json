@@ -1,0 +1,20 @@
+{
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
+  "name": "Wolfram Alpha",
+  "description": "Använd Wolfram Alpha för allmänna kunskapsfrågor.",
+  "examples": [
+    "fråga vargen vad ljusets hastighet är",
+    "Hur högt är Mount Everest?",
+    "När släpptes The Rocky Horror Picture Show?",
+    "Vad är Madonnas riktiga namn?",
+    "Vad är 18 gånger 4?",
+    "Hur många tum är en meter?"
+  ],
+  "tags": [
+    "wolfram-alpha",
+    "fråga",
+    "allmänbildning",
+    "information"
+  ]
+}
