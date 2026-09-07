@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.8.0a1) (2026-09-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.4a1...0.8.0a1)
+
+**Merged pull requests:**
+
+- feat: pt-BR, nl-NL, sv-SE, kab locale parity [\#138](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/138) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.7.4a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.4a1) (2026-09-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.3a1...0.7.4a1)
