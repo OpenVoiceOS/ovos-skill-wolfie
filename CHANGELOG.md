@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.4a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.4a1) (2026-09-07)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.3a1...0.7.4a1)
+
+**Merged pull requests:**
+
+- fix: repair intent lines with localised slot names or broken syntax [\#139](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/139) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.7.3a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.7.3a1) (2026-08-31)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.2a2...0.7.3a1)
