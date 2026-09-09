@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.8.0a2) (2026-09-09)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.8.0a1...0.8.0a2)
+
+**Merged pull requests:**
+
+- translate: restore de-DE, ca-ES, da-DK from \#90, \#77, \#105 [\#142](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/142) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.8.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.8.0a1) (2026-09-07)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.7.4a1...0.8.0a1)
