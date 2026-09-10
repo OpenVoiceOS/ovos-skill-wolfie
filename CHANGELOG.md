@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.0a3](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.8.0a3) (2026-09-10)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.8.0a2...0.8.0a3)
+
+**Merged pull requests:**
+
+- translate\(da-DK\): add missing Help.voc, query.blacklist, wolfram.voc [\#145](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/145) ([andlo](https://github.com/andlo))
+- translate: restore forgotten MiscBlacklist.voc \(da-DK, de-DE, ca-ES\) [\#135](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/135) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.8.0a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.8.0a2) (2026-09-09)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.8.0a1...0.8.0a2)
