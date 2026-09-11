@@ -1,0 +1,22 @@
+{
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
+  "name": "Wolfram Alpha",
+  "description": "Posez vos questions à Wolfram Alpha pour les calculs, les conversions et les questions factuelles.",
+  "examples": [
+    "Demande à Wolfram Alpha quelle est la vitesse de la lumière",
+    "Quelle est la hauteur du mont Everest ?",
+    "Quand Rocky Horror Picture Show est-il sorti ?",
+    "Quel est le vrai nom de Madonna ?",
+    "Combien font 18 fois 4 ?",
+    "Combien de pouces y a-t-il dans un mètre ?"
+  ],
+  "tags": [
+    "wolfram-alpha",
+    "question",
+    "calcul",
+    "conversion",
+    "culture-générale",
+    "information"
+  ]
+}
