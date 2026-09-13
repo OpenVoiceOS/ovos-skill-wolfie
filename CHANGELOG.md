@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.2a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.9.2a1) (2026-09-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.9.1a1...0.9.2a1)
+
+**Merged pull requests:**
+
+- fix\(locale\): ignore\_query.voc drops the third line that refused real questions after \#149 [\#151](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/151) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.9.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.9.1a1) (2026-09-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.9.0a1...0.9.1a1)
