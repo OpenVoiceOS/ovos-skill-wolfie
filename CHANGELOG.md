@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.9.0a1) (2026-09-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.8.0a3...0.9.0a1)
+
+**Merged pull requests:**
+
+- feat\(locale\): parity for ovos-skill-wolfie \(11 locales\) [\#147](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/147) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.8.0a3](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.8.0a3) (2026-09-10)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.8.0a2...0.8.0a3)
