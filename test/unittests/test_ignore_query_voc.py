@@ -125,6 +125,19 @@ CASES = {
             "cales son as tuas habilidades",
         ],
     },
+    "kab": {
+        "ordinary": [
+            "acḥal i telha twenza n paris",
+            "amek ara ẓẓun aḍu n ubernus",
+            "d acu-t tarbaɛt n umcic",
+            "d tidet aya",
+        ],
+        "fillers": [
+            "tzemreḍ ad tesekcmeḍ askar-agi",
+            "sekcem tinuḍefin timaynutin",
+            "d acu-tent tinuḍefin-ik akk",
+        ],
+    },
     "it-IT": {
         "ordinary": [
             "puoi dirmi quanto e alta la torre eiffel",
