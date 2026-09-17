@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.0a1) (2026-09-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.11.0a1...0.12.0a1)
+
+**Merged pull requests:**
+
+- feat\(locale\): fill fr-FR and it-IT gaps against en-US [\#156](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/156) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.11.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.11.0a1) (2026-09-17)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.10.0a1...0.11.0a1)
