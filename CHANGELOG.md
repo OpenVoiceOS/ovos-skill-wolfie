@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.10.0a1) (2026-09-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.9.3a1...0.10.0a1)
+
+**Merged pull requests:**
+
+- feat\(locale\): fill kab and pt-PT gaps against en-US [\#158](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/158) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.9.3a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.9.3a1) (2026-09-14)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.9.2a1...0.9.3a1)
