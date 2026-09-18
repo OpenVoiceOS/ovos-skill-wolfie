@@ -1,0 +1,14 @@
+# værdier der ikke må udfylde {query}-feltet i search_wolfie.intent
+# bare anaforiske pronominer bærer ingen forespørgsel i sig selv: en ytring
+# som "spørg wolfram om det" skal efterlade {query} uafklaret, så et senere
+# trin (kontekstopfyldning eller genspørgsel) kan levere referencen, i
+# stedet for at sende det bogstavelige ord "det" til Wolfram Alpha
+han
+hun
+de
+det
+ham
+hende
+dem
+dette
+den

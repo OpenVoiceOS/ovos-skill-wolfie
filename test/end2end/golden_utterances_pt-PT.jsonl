@@ -1,0 +1,2 @@
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "pergunta ao lobo pizza", "lang": "pt-PT", "intent_label": "search_wolfie.intent", "intent_type": "padatious", "expected_messages": ["speak"], "needs_manual": false, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "pergunta ao lobo yoga", "lang": "pt-PT", "intent_label": "search_wolfie.intent", "intent_type": "padatious", "expected_messages": ["speak"], "needs_manual": false, "machine_generated": true}

@@ -1,0 +1,20 @@
+{
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
+  "name": "Wolfram Alpha",
+  "description": "Brug Wolfram Alpha til generelle vidensspørgsmål.",
+  "examples": [
+    "spørg ulven, hvad lysets hastighed er",
+    "Hvor højt er Mount Everest?",
+    "Hvornår blev The Rocky Horror Picture Show udgivet?",
+    "Hvad er Madonnas rigtige navn?",
+    "Hvad er 18 gange 4?",
+    "Hvor mange tommer i en meter?"
+  ],
+  "tags": [
+    "wolfram-alfa",
+    "forespørgsel",
+    "generel viden",
+    "information"
+  ]
+}
