@@ -229,9 +229,9 @@ class TestEnUsLocaleResources(unittest.TestCase):
                     if ln.strip() and not ln.strip().startswith("#")]
 
     def test_help_voc_present(self):
-        # handle_wolfram_fallback voc_matches "Help"; the file must ship so
+        # handle_wolfram_fallback voc_matches "help"; the file must ship so
         # meta requests are not forwarded to Wolfram Alpha
-        self.assertIn("install", self._locale("Help.voc"))
+        self.assertIn("install", self._locale("help.voc"))
 
     def test_intent_names_backend(self):
         # every explicit template names the backend in a (wolfram|...) group,
