@@ -94,7 +94,7 @@ class WolframAlphaSkill(FallbackSkill):
 
     def can_answer(self, message: Message) -> bool:
         utterance = message.data["utterances"][0]
-        if self.voc_match(utterance, "Help"):
+        if self.voc_match(utterance, "help"):
             return False
         lang = SessionManager.get(message).lang.split("-")[0]
         # Answering this honestly means asking Wolfram Alpha. The request is
@@ -106,7 +106,7 @@ class WolframAlphaSkill(FallbackSkill):
     @fallback_handler(priority=91)
     def handle_wolfram_fallback(self, message: Message) -> bool:
         utterance = message.data["utterance"]
-        if self.voc_match(utterance, "Help"):
+        if self.voc_match(utterance, "help"):
             return False
         sess = SessionManager.get(message)
         lang = (message.data.get("lang") or sess.lang).split("-")[0]
