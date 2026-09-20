@@ -1,0 +1,20 @@
+{
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
+  "name": "Wolfram Alpha",
+  "description": "Seqdec Wolfram Alpha i tigawin n tmusni tamatut.",
+  "examples": [
+    "steqsi awtul acu-t urar n tafat",
+    "D acḥal ay yeɛlay uḍar n Everest?",
+    "Melmi i d-yeffeɣ The Rocky Horror Picture Show?",
+    "D acu-t isem n Madonna n tidet?",
+    "D acḥal 18 s 4?",
+    "D acḥal n yinces deg umitr?"
+  ],
+  "tags": [
+    "wolfram-alpha",
+    "asteqsi",
+    "tamusni-tamatut",
+    "talɣut"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
+  "name": "Wolfram Alpha",
+  "description": "Erabili Wolfram Alpha kultura orokorreko galderetarako.",
+  "examples": [
+    "galdetu otsoari zein den argiaren abiadura",
+    "Zein da Everest mendiaren garaiera?",
+    "Noiz estreinatu zen The Rocky Horror Picture Show?",
+    "Zein da Madonnaren benetako izena?",
+    "Zenbat da 18 bider 4?",
+    "Zenbat hazbete ditu metro batek?"
+  ],
+  "tags": [
+    "wolfram-alpha",
+    "kontsulta",
+    "kultura-orokorra",
+    "informazioa"
+  ]
+}
