@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.1a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a2) (2026-09-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a1...0.12.1a2)
+
+**Merged pull requests:**
+
+- chore: remove the root locale/ tree that nothing packages or reads [\#167](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/167) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.12.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a1) (2026-09-18)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.0a3...0.12.1a1)
@@ -413,18 +421,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.0a2...0.3.0)
 
-**Merged pull requests:**
-
-- Release 0.3.0a2 [\#62](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/62) ([github-actions[bot]](https://github.com/apps/github-actions))
-
 ## [0.3.0a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.0a2) (2025-01-04)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.2.16a1...0.3.0a2)
-
-**Merged pull requests:**
-
-- Update version.py [\#61](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/61) ([JarbasAl](https://github.com/JarbasAl))
-- refactor: new common query decorators [\#60](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/60) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.2.16a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.2.16a1) (2024-12-12)
 
