@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.1a3](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a3) (2026-09-28)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a2...0.12.1a3)
+
+**Merged pull requests:**
+
+- locale: draft es-CO fa-IR pl-PL ru-RU from en-US \(machine translation, unvouched\) [\#169](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/169) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.12.1a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a2) (2026-09-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a1...0.12.1a2)
@@ -411,11 +419,6 @@
 ## [0.3.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.1a1) (2025-01-25)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.0...0.3.1a1)
-
-**Merged pull requests:**
-
-- Release 0.3.1a1 [\#64](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/64) ([github-actions[bot]](https://github.com/apps/github-actions))
-- fix automations [\#63](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/63) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.3.0](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.0) (2025-01-04)
 
