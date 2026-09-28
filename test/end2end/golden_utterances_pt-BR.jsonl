@@ -1,0 +1,3 @@
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "pergunte ao wolfram pizza", "lang": "pt-BR", "intent_label": "search_wolfie.intent", "intent_type": "padatious", "expected_messages": ["speak"], "needs_manual": false, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "pergunte ao wolfram sobre pizza", "lang": "pt-BR", "intent_label": "search_wolfie.intent", "intent_type": "padatious", "expected_messages": ["speak"], "needs_manual": false, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "pergunte ao wolfram yoga", "lang": "pt-BR", "intent_label": "search_wolfie.intent", "intent_type": "padatious", "expected_messages": ["speak"], "needs_manual": false, "machine_generated": true}
