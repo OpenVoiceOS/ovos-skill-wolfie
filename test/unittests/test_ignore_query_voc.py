@@ -138,6 +138,58 @@ CASES = {
             "d acu-tent tinuḍefin-ik akk",
         ],
     },
+    "es-CO": {
+        "ordinary": [
+            "puedes decirme la capital de francia",
+            "como instalar un aire acondicionado",
+            "que habilidades tiene un gato",
+            "es eso cierto",
+        ],
+        "fillers": [
+            "puedes instalar esta skill",
+            "instalar skills",
+            "cuales son tus habilidades",
+        ],
+    },
+    "fa-IR": {
+        "ordinary": [
+            "پایتخت فرانسه کجاست",
+            "چگونه یک کولر گازی نصب کنم",
+            "یک گربه چه توانایی هایی دارد",
+            "آیا این درست است",
+        ],
+        "fillers": [
+            "می توانید نصب کنید",
+            "این مهارت را نصب کنید",
+            "مهارت های شما چیست",
+        ],
+    },
+    "pl-PL": {
+        "ordinary": [
+            "jaka jest stolica francji",
+            "jak zamontowac klimatyzator",
+            "jakie umiejetnosci ma kot",
+            "czy to prawda",
+        ],
+        "fillers": [
+            "czy mozesz zainstalowac ta umiejetnosc",
+            "zainstaluj umiejetnosci",
+            "jakie sa twoje umiejetnosci",
+        ],
+    },
+    "ru-RU": {
+        "ordinary": [
+            "какая столица франции",
+            "как установить кондиционер",
+            "какие навыки у кошки",
+            "это правда",
+        ],
+        "fillers": [
+            "можешь установить этот навык",
+            "установи навыки",
+            "какие твои навыки",
+        ],
+    },
     "it-IT": {
         "ordinary": [
             "puoi dirmi quanto e alta la torre eiffel",

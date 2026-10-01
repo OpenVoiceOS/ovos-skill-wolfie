@@ -9,9 +9,9 @@ common_query paths, and so a live network call is never made.
 
 Every locale that ships a search_wolfie.intent gets its own
 golden_utterances_<lang>.jsonl, rows expanded directly from that locale's
-own template lines, {query} filled with an obvious loanword (pizza / yoga).
-pt-PT ships only one template line, so it gets 2 rows instead of 3 -- a
-real, unfixed locale-coverage gap, not a suite defect.
+own template lines. Rows marked ``needs_manual`` run too: a machine-generated
+row that no native speaker has vouched for is still a row the matcher must
+route.
 
 One MiniCroft is booted per locale in turn (lang=<locale>, no
 secondary_langs -- see ovos-skill-date-time/test/end2end/test_intents_it_it.py
@@ -43,10 +43,22 @@ _IGNORE = [
 
 END2END_DIR = Path(__file__).parent
 
-LANGS = [
-    "ca-ES", "da-DK", "de-DE", "es-ES", "eu-ES", "fr-FR", "gl-ES",
-    "it-IT", "kab", "nl-NL", "pt-BR", "pt-PT", "sv-SE",
-]
+# en-US runs in test_golden_utterances.py.
+EXCLUDED_LANGS = {"en-US"}
+LANGS = sorted(
+    lang for lang in (p.stem.split("golden_utterances_", 1)[1]
+                      for p in END2END_DIR.glob("golden_utterances_*.jsonl"))
+    if lang not in EXCLUDED_LANGS
+)
+assert LANGS, "no golden_utterances_<lang>.jsonl files found"
+
+LOCALE_ROOT = END2END_DIR.parent.parent / "ovos_skill_wolfie" / "locale"
+
+
+def test_every_shipping_locale_has_a_golden_file():
+    golden = {p.stem.split("_", 2)[2] for p in END2END_DIR.glob("golden_utterances_*.jsonl")}
+    shipping = {d.name for d in LOCALE_ROOT.iterdir() if d.is_dir() and any(d.rglob("*.intent"))}
+    assert golden == shipping, f"golden files {sorted(golden ^ shipping)} differ from shipping locales"
 
 
 def _fake_get_answer(self, *args, **kwargs):
@@ -71,10 +83,8 @@ def _load_rows(lang):
             line = line.strip()
             if not line:
                 continue
-            row = json.loads(line)
-            if row.get("needs_manual"):
-                continue
-            rows.append(row)
+            rows.append(json.loads(line))
+    assert rows, f"{lang}: no golden rows"
     return rows
 
 
