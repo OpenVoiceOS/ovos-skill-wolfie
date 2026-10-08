@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.1a4](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a4) (2026-10-08)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a3...0.12.1a4)
+
+**Merged pull requests:**
+
+- test: golden utterances for every intent in every shipped locale [\#172](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/172) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.12.1a3](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a3) (2026-09-28)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a2...0.12.1a3)
@@ -396,25 +404,13 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.4.0...0.5.0a1)
 
-**Merged pull requests:**
-
-- feat: fallback handler [\#67](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/67) ([JarbasAl](https://github.com/JarbasAl))
-
 ## [0.4.0](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.4.0) (2025-02-02)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.4.0a1...0.4.0)
 
-**Merged pull requests:**
-
-- Release 0.4.0a1 [\#66](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/66) ([github-actions[bot]](https://github.com/apps/github-actions))
-
 ## [0.4.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.4.0a1) (2025-02-02)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.3.1a1...0.4.0a1)
-
-**Merged pull requests:**
-
-- feat: wolfram alpha persona [\#65](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/65) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.3.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.3.1a1) (2025-01-25)
 
