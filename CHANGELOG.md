@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.1a5](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a5) (2026-10-09)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a4...0.12.1a5)
+
+**Merged pull requests:**
+
+- test: natural golden rows and an m2v gate for every locale [\#136](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/136) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.12.1a4](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a4) (2026-10-08)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a3...0.12.1a4)
@@ -395,10 +403,6 @@
 ## [0.5.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.1a1) (2025-03-27)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.0a1...0.5.1a1)
-
-**Merged pull requests:**
-
-- fix: show GUI if wolfram fallback handler matches [\#69](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/69) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.5.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.0a1) (2025-03-27)
 
