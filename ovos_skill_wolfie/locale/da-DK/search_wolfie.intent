@@ -7,3 +7,6 @@ spørg wolframen om {query}
 søg i ulven efter {query}
 søg i wolfram alpha efter {query}
 søg i wolfram efter {query}
+spørg (wolfram|wolfram alpha|ulven) hvor (mange|meget|langt|høj|gammel) {query}
+brug (wolfram|wolfram alpha) til at (finde|regne) {query}
+ifølge (wolfram|wolfram alpha|ulven) {query}

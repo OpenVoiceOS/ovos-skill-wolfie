@@ -1,5 +1,5 @@
 Frage Wolfram Alpha über {query}
-Suche Wolf für {query}
+suche beim Wolf nach {query}
 Suche den Wolf nach {query}
 Suche wolfram alpha nach {query}
 befrage den Wolf über {query}
@@ -8,3 +8,9 @@ frage den Wolf {query}
 was sagt Wolfram alpha über {query}
 was sagt Wolfram über {query}
 was sagt der Wolf über {query}
+frag (Wolfram|Wolfram Alpha|den Wolf) {query}
+benutze (Wolfram|Wolfram Alpha) um {query} (zu berechnen|auszurechnen|herauszufinden)
+laut (Wolfram|Wolfram Alpha) {query}
+frag (den Wolf|Wolfram|Wolfram Alpha) (wie viele|wie viel|wie hoch|wann|wo|was) {query}
+lass (Wolfram|Wolfram Alpha|den Wolf) {query} (lösen|berechnen|prüfen)
+prüf (mit|bei) (Wolfram|Wolfram Alpha) {query}

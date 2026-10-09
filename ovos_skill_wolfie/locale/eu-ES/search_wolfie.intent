@@ -6,3 +6,7 @@ bilatu wolfram bilatzailean {query}
 zer dio wolf bilatzaileak honi buruz: {query}?
 zer dio wolfram alpha bilatzaileak honi buruz: {query}?
 zer dio wolfram bilatzaileak honi buruz: {query}?
+bilatu (wolframen|wolfram alphan) {query}
+galdetu (wolframi|wolfram alphari|otsoari) {query}
+(wolframen|wolfram alpharen|otsoaren) arabera {query}
+erabili (wolfram|wolfram alpha) {query} kalkulatzeko
