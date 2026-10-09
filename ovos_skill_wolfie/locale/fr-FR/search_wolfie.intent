@@ -3,3 +3,7 @@ cherche {query} sur Wolfram Alpha
 demande à Wolfram Alpha {query}
 pose la question à Wolfram Alpha {query}
 que dit Wolfram Alpha sur {query}
+demande (au loup|à wolfram|à wolfram alpha) de (calculer|résoudre|trouver) {query}
+(wolfram|wolfram alpha) (combien|quel|quelle|quand|où|comment) {query}
+(avec|grâce à) (wolfram|wolfram alpha) dis-moi (combien|quel|quelle|où|quand) {query}
+(vérifie|regarde) (avec|sur) (wolfram|wolfram alpha) {query}
