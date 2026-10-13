@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.13.0a1) (2026-10-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a5...0.13.0a1)
+
+**Merged pull requests:**
+
+- feat\(locale\): require the Wolfram name in search\_wolfie requests [\#175](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/175) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.12.1a5](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.12.1a5) (2026-10-09)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a4...0.12.1a5)
@@ -388,17 +396,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.1...0.5.2a1)
 
-**Merged pull requests:**
-
-- fix: move to fallback\_low stage [\#71](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/71) ([JarbasAl](https://github.com/JarbasAl))
-
 ## [0.5.1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.1) (2025-03-27)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.1a1...0.5.1)
-
-**Merged pull requests:**
-
-- Release 0.5.1a1 [\#70](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/70) ([github-actions[bot]](https://github.com/apps/github-actions))
 
 ## [0.5.1a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.1a1) (2025-03-27)
 
