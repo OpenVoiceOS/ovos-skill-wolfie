@@ -1,0 +1,20 @@
+{
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
+  "name": "Wolfram Alpha",
+  "description": "Usa o Wolfram Alpha para perguntas de conhecimento geral.",
+  "examples": [
+    "pergunta ao lobo qual é a velocidade da luz",
+    "Qual é a altura do Monte Evereste?",
+    "Quando foi lançado o The Rocky Horror Picture Show?",
+    "Qual é o verdadeiro nome da Madonna?",
+    "Quanto é 18 vezes 4?",
+    "Quantas polegadas tem um metro?"
+  ],
+  "tags": [
+    "wolfram-alpha",
+    "query",
+    "general-knowledge",
+    "information"
+  ]
+}

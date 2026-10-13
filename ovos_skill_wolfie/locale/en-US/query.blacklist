@@ -1,0 +1,14 @@
+# values that must not fill the {query} slot of search_wolfie.intent
+# bare anaphoric pronouns carry no query on their own: an utterance like
+# "ask wolfram about it" must leave {query} unresolved so a later stage
+# (OVOS-CONTEXT-1 §7 context fill or a re-prompt) supplies the referent,
+# instead of sending the literal word "it" to Wolfram Alpha.
+he
+she
+they
+it
+him
+her
+them
+this
+that

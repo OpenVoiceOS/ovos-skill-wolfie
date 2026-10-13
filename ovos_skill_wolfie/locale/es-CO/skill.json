@@ -1,0 +1,17 @@
+{
+  "skill_id": "ovos-skill-wolfie.openvoiceos",
+  "source": "https://github.com/OpenVoiceOS/ovos-skill-wolfie",
+  "name": "Wolfram Alpha",
+  "description": "Utilice Wolfram Alpha para preguntas de cultura general.",
+  "examples": [
+    "pregúntale al lobo cuál es la velocidad de la luz",
+    "¿qué dice Wolfram sobre el Monte Everest?"
+  ],
+  "tags": [
+    "wolfram-alpha",
+    "consulta",
+    "pregunta",
+    "conocimientos-generales",
+    "información"
+  ]
+}
