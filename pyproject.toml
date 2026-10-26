@@ -21,7 +21,7 @@ dependencies = [
 [project.optional-dependencies]
 test = [
     "ovoscope>=1.11.2a1",
-    "ovos-m2v-pipeline>=0.32.0a1",
+    "ovos-m2v-pipeline>=0.37.3a1",
     "padacioso>=1.1.1a1"
 ]
 
