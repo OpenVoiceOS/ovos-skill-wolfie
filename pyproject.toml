@@ -20,9 +20,8 @@ dependencies = [
 
 [project.optional-dependencies]
 test = [
-    "ovoscope>=1.11.2a1",
-    "ovos-m2v-pipeline>=0.32.0a1",
-    "padacioso>=1.1.1a1"
+    "ovoscope>=1.12.1a1",
+    "ovos-m2v-pipeline>=0.37.3a1"
 ]
 
 [project.urls]
@@ -45,3 +44,6 @@ ovos_skill_wolfie = [
     "locale/**/*",
     "gui/**/*",
 ]
+
+[tool.pytest.ini_options]
+ovoscope_min_routing_rate = 0.65
