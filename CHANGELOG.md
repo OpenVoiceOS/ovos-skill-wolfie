@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.0a2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.13.0a2) (2026-10-28)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.13.0a1...0.13.0a2)
+
+**Merged pull requests:**
+
+- test: run the end2end suite on the m2v prototype pipeline [\#178](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/178) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.13.0a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.13.0a1) (2026-10-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.12.1a5...0.13.0a1)
@@ -379,18 +387,9 @@
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.2...0.5.3a1)
 
-**Merged pull requests:**
-
-- Release 0.5.3a1 [\#74](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/74) ([github-actions[bot]](https://github.com/apps/github-actions))
-- fix: extend keyword blacklist [\#73](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/73) ([JarbasAl](https://github.com/JarbasAl))
-
 ## [0.5.2](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.2) (2025-03-27)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-wolfie/compare/0.5.2a1...0.5.2)
-
-**Merged pull requests:**
-
-- Release 0.5.2a1 [\#72](https://github.com/OpenVoiceOS/ovos-skill-wolfie/pull/72) ([github-actions[bot]](https://github.com/apps/github-actions))
 
 ## [0.5.2a1](https://github.com/OpenVoiceOS/ovos-skill-wolfie/tree/0.5.2a1) (2025-03-27)
 
