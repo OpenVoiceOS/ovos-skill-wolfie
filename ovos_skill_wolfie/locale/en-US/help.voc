@@ -1,0 +1,6 @@
+# meta requests about the assistant itself — these must not be forwarded to
+# Wolfram Alpha as knowledge queries by the fallback handler
+install
+skills
+what can you do
+help

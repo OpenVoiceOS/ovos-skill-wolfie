@@ -1,0 +1,12 @@
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "از گرگ بپرس درباره سرعت نور", "intent_label": "search_wolfie", "needs_manual": false, "lang": "fa-IR", "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "به ولفرام بگو ارتفاع اورست", "intent_label": "search_wolfie", "needs_manual": false, "lang": "fa-IR", "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "ولفرام آلفا درباره تاریخچه پیتزا چه می گوید", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true, "rewritten_from": "ولفرام درباره پیتزا چه می گوید"}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "از ولفرام آلفا بپرس فاصله زمین تا ماه چقدر است", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "در ولفرام آلفا جستجو کن جمعیت تهران چقدر است", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "با ولفرام حساب کن پانزده درصد هشتاد چند می شود", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "در ولفرام آلفا ببین پایتخت استرالیا کجاست", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "ولفرام آلفا، یک مایل چند کیلومتر است", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "از ولفرام بخواه معادله ایکس به توان دو منهای چهار مساوی صفر را حل کند", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "می خواهم از ولفرام آلفا بدانم نقطه ذوب طلا چند درجه است", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "با ولفرام امید به زندگی در ایران را بررسی کن", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
+{"skill_id": "ovos-skill-wolfie.openvoiceos", "utterance": "به کمک ولفرام آلفا بگو اصفهان چند نفر جمعیت دارد", "lang": "fa-IR", "intent_label": "search_wolfie", "needs_manual": true, "machine_generated": true}
