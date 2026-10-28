@@ -1,11 +1,11 @@
 """The search_wolfie handler speaks the answer on the m2v pipeline (en-US).
 
-Boots the skill on the published m2v model with ovoscope's
-``get_m2v_minicroft``, sends each utterance over the bus, and asserts both
-routing (``ovos.intent.matched`` names this skill's ``search_wolfie``
-intent) and effect (the spoken text carries the retrieval answer, not the
-bare dialog name). ``test_golden_utterances.py`` gates how many golden rows
-route; this test checks what the handler does once a row routes.
+Boots the skill on the published m2v model, sends each utterance over the
+bus, and asserts both routing (the request reaches this skill's
+``search_wolfie`` intent) and effect (the spoken text carries the retrieval
+answer, not the bare dialog name). ``test_golden_utterances.py`` gates how
+many golden rows route; this test checks what the handler does once a row
+routes.
 
 ``WolframAlphaSkill._get_answer`` is stubbed to a fixed answer, so the
 effect assertion does not depend on live Wolfram Alpha access. The fallback
@@ -16,8 +16,8 @@ from unittest.mock import patch
 import pytest
 from ovos_bus_client.message import Message
 from ovos_bus_client.session import Session
-from ovoscope import M2V_PUBLISHED_MODEL, CaptureSession, get_m2v_minicroft
-from ovoscope.golden_minicroft import warm_m2v_models
+from ovoscope import CaptureSession
+from ovoscope.routing import PIPELINE, TALLY, get_prototype_minicroft
 
 SKILL_ID = "ovos-skill-wolfie.openvoiceos"
 LANG = "en-US"
@@ -46,8 +46,7 @@ def minicroft():
         _fake_get_answer,
     )
     p.start()
-    mc = get_m2v_minicroft([SKILL_ID], model=M2V_PUBLISHED_MODEL, lang=LANG, classifier=False)
-    warm_m2v_models(mc)
+    mc = get_prototype_minicroft([SKILL_ID], lang=LANG)
     yield mc
     mc.stop()
     p.stop()
@@ -56,6 +55,7 @@ def minicroft():
 def _capture(mc, text, session_id):
     session = Session(session_id)
     session.lang = LANG
+    session.pipeline = PIPELINE
     utterance = Message(
         "recognizer_loop:utterance",
         {"utterances": [text], "lang": LANG},
@@ -72,15 +72,8 @@ def test_m2v_gate(minicroft, row):
     expected_intent = f"{SKILL_ID}:{row['intent_label']}"
     messages = _capture(minicroft, row["utterance"], f"m2v-{row['utterance']}")
 
-    matched = [m for m in messages if m.msg_type == "ovos.intent.matched"]
-    assert matched, (
-        f"{row['utterance']!r}: expected ovos.intent.matched, got "
-        f"{[m.msg_type for m in messages]!r}"
-    )
-    names = [m.data.get("intent_name") for m in matched]
-    assert expected_intent in names, (
-        f"{row['utterance']!r}: expected intent_name {expected_intent!r}, got {names!r}"
-    )
+    TALLY.assert_routed(row["utterance"], expected_intent,
+                        [m.msg_type for m in messages])
 
     speaks = [m for m in messages if m.msg_type in ("speak", "ovos.utterance.speak")]
     assert speaks, f"{row['utterance']!r}: no speak message captured"
